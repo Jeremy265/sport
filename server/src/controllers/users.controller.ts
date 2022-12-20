@@ -18,9 +18,11 @@ export class UsersController extends GenericController {
 
     login = async (req: Request, res: Response) => {
         try {
-            res.json(await this.service.login(req.body, await this.service.getByEmail(req.body)))
+            const user = await this.service.getByEmail(req.body)
+            const token = await this.service.login(req.body, user)
+            delete user.password
+            res.setHeader('Authorization', token).json(user)
         } catch (e: any) {
-            console.log(e)
             res.status(e.status).send(e.message)
         }
     }

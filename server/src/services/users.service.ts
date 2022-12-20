@@ -55,7 +55,7 @@ export class UsersService extends GenericService<User> {
             .then((result: boolean) => {
                 if (!result)
                     throw new HttpResponseError({status: 403, message: 'Wrong email or password'})
-                return generateAccessToken({user_id: user.user_id})
+                return generateAccessToken({user_id: user.user_id, first_name: user.first_name, last_name: user.last_name, isAdmin: user.email === 'jeremy.thom26@yahoo.fr'})
             })
     }
 

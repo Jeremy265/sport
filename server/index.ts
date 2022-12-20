@@ -9,26 +9,25 @@ import {Request, Response} from "express";
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3003;
+
+app.use(express.json())
+app.use('/api', authenticateToken)
+app.use('/api/users', new UsersRoute().getRouter())
+app.use('/api/trainings', new TrainingsRoute().getRouter())
+app.use('/api/sets', new SetsRoute().getRouter())
+app.use('/api/exercises', new ExercisesRoute().getRouter())
+app.use('/api/bodyCompositions', new BodyCompositionsRoute().getRouter())
+app.use('/api/bodyCompositionCategories', new BodyCompositionCategoriesRoute().getRouter())
 
 const path = require("path");
 const clientDir = path.join(__dirname, "../../client/dist");
 
-app.use(express.json())
 app.use(express.static(clientDir));
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/*', (req: Request, res: Response) => {
     res.sendFile(path.join(clientDir, "index.html"))
 })
-
-app.use(authenticateToken)
-
-app.use('/users', new UsersRoute().getRouter())
-app.use('/trainings', new TrainingsRoute().getRouter())
-app.use('/sets', new SetsRoute().getRouter())
-app.use('/exercises', new ExercisesRoute().getRouter())
-app.use('/bodyCompositions', new BodyCompositionsRoute().getRouter())
-app.use('/bodyCompositionCategories', new BodyCompositionCategoriesRoute().getRouter())
 
 
 app.listen(port, () => {

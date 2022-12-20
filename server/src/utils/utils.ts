@@ -36,10 +36,7 @@ const messageByPrismaCodes: {
     'P1016': 'Raw query had an incorrect number of parameters',
     'P1017': 'Server has closed the connection',
     'P2000': 'The provided value for the column is too long for the column\'s type',
-    'P2001': 'The record searched for in the where condition does not exist',
-    'P2002': 'Unique constraint failed',
-    'P2003': 'Foreign key constraint failed',
-    'P2025': ''
+    'P2001': 'The record searched for in the where condition does not exist'
 }
 
 export const handleError = (e: any) => {
@@ -50,7 +47,10 @@ export const handleError = (e: any) => {
         })
     }
     if (e.name === 'NotFoundError') {
-        return new HttpResponseError({status: 404, message: `Resource not found`});
+        return new HttpResponseError({status: 404, message: 'Resource not found'});
+    }
+    if (e.code === 'P2002') {
+        return new HttpResponseError({status: 400, message: 'Unique constraint failed on field : ' + e.meta.target})
     }
     if (e.code === 'P2003') {
         return new HttpResponseError({status: 400, message: 'Foreign key constraint failed on field : ' + e.meta.field_name})
@@ -58,6 +58,6 @@ export const handleError = (e: any) => {
     if (e.code === 'P2025') {
         return new HttpResponseError({status: 404, message: e.meta.cause})
     }
-    // console.log(e)
+    console.log(e)
     return new HttpResponseError(getFormattedErrorFromPrismaError(e))
 }
