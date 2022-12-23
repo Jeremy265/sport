@@ -1,27 +1,28 @@
 import * as React from 'react';
-import {useState} from 'react';
-import {Container, Grid, Paper, TextFieldProps} from "@mui/material";
-import Orders from "../Orders/Orders";
+import {Grid, Paper, TextFieldProps} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Title from "../Title/Title";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Dayjs} from "dayjs";
 import 'dayjs/locale/fr';
+import {ITraining} from "../../services/trainings.service";
+import {useState} from "react";
 
-const dayjs = require("dayjs");
+interface Props {
+    training: ITraining;
+}
 
-const TrainingGeneralInformations = () => {
+const TrainingAddSets = ({training}: Props) => {
 
-    const [date, setDate] = useState<Dayjs>(dayjs(new Date()))
+    const [exercises, setExercises] = useState<IExercises>([])
 
     const handleSubmit = () => {
 
     }
 
     return <Paper sx={{p: 2}}>
-        <Title>General informations</Title>
+        <Title>Add sets</Title>
         <Grid container xs={12} spacing={3}>
             <Grid item xs={12} sx={{mt: 2}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'fr'}>
@@ -62,4 +63,4 @@ const TrainingGeneralInformations = () => {
     </Paper>
 }
 
-export default TrainingGeneralInformations
+export default TrainingAddSets

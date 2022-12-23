@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container, Grid, Paper } from '@mui/material';
 import Chart from '../Chart/Chart';
 import Deposits from '../Deposits/Deposits';
-import Orders from '../Orders/Orders';
+import MyRecentTrainings from '../Training/MyRecentTrainings';
 
 const Dashboard = () => {
   return (
@@ -33,10 +33,10 @@ const Dashboard = () => {
               <Deposits />
             </Paper>
           </Grid>
-          {/* Recent Orders */}
+          {/* Recent MyRecentTrainings */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Orders />
+              <MyRecentTrainings />
             </Paper>
           </Grid>
         </Grid>

@@ -20,8 +20,10 @@ export const signUp = (user: UserSignUp): Promise<void> =>
 export const signIn = (user: UserSignIn): Promise<void> =>
     axios.post(API_URL + "/login", user)
         .then((response: AxiosResponse) => {
-            localStorage.setItem('user', JSON.stringify({...response.data, token: response.headers['Authorization']}))
+            localStorage.setItem('user', JSON.stringify({...response.data, token: response.headers['authorization']}))
         })
 
-export const signOut = (): void =>
+export const signOut = (): void => {
     localStorage.removeItem('user')
+    window.location.href = '/'
+}
