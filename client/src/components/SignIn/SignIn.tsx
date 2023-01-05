@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {FormEvent, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -8,11 +9,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Link} from "react-router-dom";
-import {AxiosError} from "axios";
-import {FormEvent, useState} from "react";
 import {getJSONFromForm} from "../../utils/forms";
 import {signIn} from "../../services/users.service";
-import Message from "../Message/Message";
 import {Alert, AlertColor, SnackbarOrigin} from "@mui/material";
 
 const SignIn = () => {
@@ -53,20 +51,21 @@ const SignIn = () => {
                 message: 'Vous êtes connecté.',
                 severity: 'success'
             })
-        }).catch((error: AxiosError) => {
+            window.location.href = '/'
+        }).catch((error: Error) => {
             setMessage({
                 ...message,
-                message: error.response.statusText + ' : ' + error.response.data,
+                message: error.message,
                 severity: 'error'
             })
         })
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: '2em',
+                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -78,12 +77,12 @@ const SignIn = () => {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                { message.message !== '' &&
+                {message.message !== '' &&
                     <Alert elevation={6} variant="filled" severity={message.severity} sx={{width: '100%'}}>
                         {message.message}
                     </Alert>
                 }
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+                <Box component="form" onSubmit={handleSubmit} sx={{mt: 1}}>
                     <TextField
                         margin="normal"
                         required
@@ -114,10 +113,10 @@ const SignIn = () => {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link to={'/signup'}>Mot de passe oublié ?</Link>
+                            <Link to={'/signup'}>Forgot password ?</Link>
                         </Grid>
                         <Grid item>
-                            <Link to={'/signup'}>Pas de compte ? S'inscrire</Link>
+                            <Link to={'/signup'}>No account ? Sign up</Link>
                         </Grid>
                     </Grid>
                 </Box>

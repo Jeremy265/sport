@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import {verifyAccessToken} from "../utils/jwt";
+import {HttpResponseError} from "../utils/CustomErrors";
 
 interface AllowedRoute {
     method: string;
@@ -34,6 +35,8 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
     try {
         res.locals.user = verifyAccessToken(token)
+        if (!res.locals.user.user_id)
+            throw new HttpResponseError(401, 'Invalid token')
         next()
     } catch (error: any) {
         res.status(error.status).send(error.message)

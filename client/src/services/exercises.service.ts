@@ -1,53 +1,29 @@
-import axios, {AxiosError, AxiosPromise, AxiosResponse} from "axios";
-
-export const API_URL = "/api/exercises";
+import {GenericService} from "./generic.service";
+import {AxiosResponse} from "axios";
+import {IUnit} from "./units.service";
 
 export interface IExercise {
     exercise_id?: number
     title: string;
     image: string;
+    unit_id: number;
+    units?: IUnit;
 }
 
-export const createExercise = (exercise: IExercise): Promise<IExercise> =>
-    axios.post(
-        API_URL,
-        exercise,
-        {
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-            }
-        }
-    ).then((response: AxiosResponse) =>
-        response.data
-    ).catch((error: AxiosError) => {
-        console.log(error)
-    });
-
-export const updateExercise = (exercise: IExercise): Promise<IExercise> =>
-    axios.put(
-        API_URL + '/' + exercise.exercise_id,
-        exercise,
-        {
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-            }
-        }
-    ).then((response: AxiosResponse) =>
-        response.data
-    ).catch((error: AxiosError) => {
-        console.log(error)
-    });
+const genericService = new GenericService()
+genericService.setApiUrl(genericService.API_URL_EXERCISES)
 
 export const getExercises = (): Promise<IExercise[]> =>
-    axios.get(
-        API_URL,
-        {
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-            }
-        }
-    ).then((response: AxiosResponse) =>
-        response.data
-    ).catch((error: AxiosError) => {
-        console.log(error)
-    });
+    genericService.get('/')
+        .then((response: AxiosResponse) => {
+            return response.data
+        })
+
+export const createExercise = (exercise: IExercise): Promise<IExercise> =>
+    genericService.post('/', {
+        title: exercise.title,
+        image: exercise.image,
+        unit_id: exercise.unit_id
+    }).then((response: AxiosResponse) => {
+        return response.data
+    })

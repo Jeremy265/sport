@@ -7,10 +7,10 @@ export const getByIdSchema = Joi.object({
 export const updateSchema = Joi.object({
     body_composition_category__id: Joi.number().min(1).required(),
     title: Joi.string().required(),
-    unit: Joi.string().required(),
+    unit_id: Joi.number().required(),
 }).required()
 
 export const createSchema = Joi.object({
     title: Joi.string().required(),
-    unit: Joi.string().required(),
+    unit_id: Joi.number().required(),
 }).required()

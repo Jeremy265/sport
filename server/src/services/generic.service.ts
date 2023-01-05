@@ -2,7 +2,6 @@ import {handleError} from "../utils/utils";
 import Joi, {ObjectSchema} from "joi";
 import {Service} from "../utils/types";
 
-
 // For methods that will be used in children with super().xx syntax, do not use arrow functions
 
 export class GenericService<T> implements Service {

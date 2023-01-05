@@ -6,6 +6,7 @@ import {ExercisesRoute} from "./src/routes/exercises.route";
 import {BodyCompositionsRoute} from "./src/routes/bodyCompositions.route";
 import {BodyCompositionCategoriesRoute} from "./src/routes/bodyCompositionCategories.route";
 import {Request, Response} from "express";
+import {UnitsRoute} from "./src/routes/units.route";
 
 const express = require('express');
 const app = express();
@@ -16,6 +17,7 @@ app.use('/api', authenticateToken)
 app.use('/api/users', new UsersRoute().getRouter())
 app.use('/api/trainings', new TrainingsRoute().getRouter())
 app.use('/api/sets', new SetsRoute().getRouter())
+app.use('/api/units', new UnitsRoute().getRouter())
 app.use('/api/exercises', new ExercisesRoute().getRouter())
 app.use('/api/bodyCompositions', new BodyCompositionsRoute().getRouter())
 app.use('/api/bodyCompositionCategories', new BodyCompositionCategoriesRoute().getRouter())
@@ -28,7 +30,6 @@ app.use(express.static(clientDir));
 app.get('/*', (req: Request, res: Response) => {
     res.sendFile(path.join(clientDir, "index.html"))
 })
-
 
 app.listen(port, () => {
     console.log('Server app listening on port ' + port);

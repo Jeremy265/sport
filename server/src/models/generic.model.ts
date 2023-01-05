@@ -1,42 +1,58 @@
 import {Model} from "../utils/types";
-import {DMMF} from "@prisma/client/runtime";
-import ModelAction = DMMF.ModelAction;
 
-export class GenericModel<T> implements Model{
+export interface Include {
+    [key: string]: boolean | Include;
+}
+
+export interface Condition {
+    [key: string]: number | string | boolean;
+}
+
+export class GenericModel<T> implements Model {
 
     protected prisma: any
+    private readonly includes: Include
 
-    constructor (prismaClient: any) {
+    constructor(prismaClient: any, includes: Include = {}) {
         this.prisma = prismaClient
+        this.includes = includes
     }
 
-    get = (): Promise<T[]> =>
-        this.prisma.findMany()
-
-    getById = (conditions: any): Promise<T> =>
-        this.prisma.findUniqueOrThrow({
-            where: conditions,
-        })
-
-    getBy = (conditions: any): Promise<T> =>
+    get = (conditions: Condition, includes: Include = this.includes): Promise<T[]> =>
         this.prisma.findMany({
             where: conditions,
+            include: includes
         })
 
-    create = (data: T): Promise<T> => {
+    getById = (conditions: Condition, includes: Include = this.includes): Promise<T> =>
+        this.prisma.findUniqueOrThrow({
+            where: conditions,
+            include: includes
+        })
+
+    getBy = (conditions: Condition, includes: Include = this.includes): Promise<T> =>
+        this.prisma.findMany({
+            where: conditions,
+            include: includes
+        })
+
+    create = (data: T, includes: Include = this.includes): Promise<T> => {
         return this.prisma.create({
-            data: data
+            data: data,
+            include: includes
         })
     }
 
-    update = (conditions: any, data: T): Promise<T> =>
+    update = (conditions: Condition, data: T, includes: Include = this.includes): Promise<T> =>
         this.prisma.update({
             where: conditions,
-            data: data
+            data: data,
+            include: includes
         })
 
-    remove = (conditions: any): Promise<T> =>
+    remove = (conditions: Condition, includes: Include = this.includes): Promise<T> =>
         this.prisma.delete({
-            where: conditions
+            where: conditions,
+            include: includes
         })
 }

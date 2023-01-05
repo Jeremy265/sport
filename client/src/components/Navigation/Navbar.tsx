@@ -4,7 +4,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import {List, ListItemButton, ListItemIcon, ListItemText,} from "@mui/material";
+import ScaleRoundedIcon from '@mui/icons-material/ScaleRounded';
+import {List,} from "@mui/material";
 import {useState} from "react";
 import NavbarItem from "./NavbarItem";
 import {signOut} from "../../services/users.service";
@@ -16,6 +17,7 @@ interface Menu {
     mustNotBeLogged: boolean;
     mustBeLogged: boolean;
     mustBeAdmin: boolean;
+    action?: () => void;
 }
 
 const Navbar = () => {
@@ -30,15 +32,23 @@ const Navbar = () => {
         },
         {
             path: '/training',
-            text: 'Mode entraînement',
+            text: 'Training mode',
             icon: <FitnessCenterIcon/>,
             mustNotBeLogged: false,
             mustBeLogged: true,
             mustBeAdmin: false
         },
         {
+            path: '/body',
+            text: 'My body',
+            icon: <ScaleRoundedIcon/>,
+            mustNotBeLogged: false,
+            mustBeLogged: true,
+            mustBeAdmin: false
+        },
+        {
             path: '/signin',
-            text: 'Se connecter',
+            text: 'Sign in',
             icon: <LoginIcon/>,
             mustNotBeLogged: true,
             mustBeLogged: false,
@@ -52,13 +62,18 @@ const Navbar = () => {
             mustBeLogged: true,
             mustBeAdmin: true
         },
+        {
+            path: '/',
+            text: 'Sign out',
+            icon: <LogoutIcon/>,
+            mustNotBeLogged: false,
+            mustBeLogged: true,
+            mustBeAdmin: false,
+            action: signOut
+        },
     ]
 
     const [selectedMenu, setSelectedMenu] = useState(0)
-
-    const handleSignOut = () => {
-        signOut()
-    }
 
     let user: any = undefined
     try {
@@ -68,7 +83,7 @@ const Navbar = () => {
     }
 
     return (
-        <List sx={{display: 'flex'}}>
+        <List sx={{display: 'flex', flexWrap: 'wrap', width:'100vw'}}>
             {
                 menus.map((menu: Menu, index: number) => {
                     if (menu.mustNotBeLogged && user)
@@ -80,22 +95,16 @@ const Navbar = () => {
                     return <NavbarItem
                         key={index}
                         selected={index === selectedMenu}
-                        onClick={() => setSelectedMenu(index)}
+                        onClick={() => {
+                            setSelectedMenu(index)
+                            if(menu.action)
+                                menu.action()
+                        }}
                         path={menu.path}
                         text={menu.text}
                         icon={menu.icon}
                     />
                 })
-            }
-            {
-                user && <ListItemButton
-                    onClick={handleSignOut}
-                >
-                    <ListItemIcon style={{color: '#FFF', minWidth: '30px'}}>
-                        <LogoutIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary='Se déconnecter'/>
-                </ListItemButton>
             }
         </List>
     )

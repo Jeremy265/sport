@@ -8,6 +8,14 @@ export class UsersController extends GenericController {
         super(new UsersService());
     }
 
+    getBy = async (req: Request, res: Response) => {
+        try {
+            res.json(await this.service.update({user_id: Number(req.params.id), ...req.body}))
+        } catch (e: any) {
+            res.status(e.status).send(e.message)
+        }
+    }
+
     update = async (req: Request, res: Response) => {
         try {
             res.json(await this.service.update({user_id: Number(req.params.id), ...req.body}))
@@ -20,7 +28,6 @@ export class UsersController extends GenericController {
         try {
             const user = await this.service.getByEmail(req.body)
             const token = await this.service.login(req.body, user)
-            delete user.password
             res.setHeader('Authorization', token).json(user)
         } catch (e: any) {
             res.status(e.status).send(e.message)

@@ -1,71 +1,59 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import Title from '../../components/Title/Title';
+import {CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 
-// Generate Sales Data
-function createData(time: string, amount?: number) {
-  return { time, amount };
+interface Props<T> {
+    title: string;
+    data: { x: any, y: any }[];
+    xLabel: string;
+    yLabel: string;
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
+const Chart = <T, >({
+                        title,
+                        data,
+                        xLabel,
+                        yLabel
+                    }: Props<T>) => {
 
-export default function Chart() {
-  const theme = useTheme();
-
-  return (
-    <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis
-            dataKey="time"
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
-          />
-          <YAxis
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
-          >
-            <Label
-              angle={270}
-              position="left"
-              style={{
-                textAnchor: 'middle',
-                fill: theme.palette.text.primary,
-                ...theme.typography.body1,
-              }}
+    return (
+        <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+                data={data}
+                margin={{
+                    top: 20,
+                    right: 20,
+                    left: 20,
+                    bottom: 20,
+                }}
             >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line
-            isAnimationActive={false}
-            type="monotone"
-            dataKey="amount"
-            stroke={theme.palette.primary.main}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </React.Fragment>
-  );
+                <CartesianGrid/>
+                <XAxis
+                    dataKey="x"
+                    label={
+                        <Label
+                            value={xLabel}
+                            position="bottom"/>}
+                />
+                <YAxis
+                    dataKey="y"
+                    type="number"
+                    tickCount={3}
+                    domain={['dataMin - 5', 'dataMax + 5']}
+                />
+                <Tooltip/>
+                <Legend
+                    verticalAlign="top"
+                    height={50}
+                />
+                <Line
+                    type="monotone"
+                    dataKey="y"
+                    stroke="#8884d8"
+                    name={title}
+                />
+            </LineChart>
+        </ResponsiveContainer>
+    );
 }
+
+export default Chart

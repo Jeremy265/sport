@@ -4,15 +4,19 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Title from "../Title/Title";
-import {Fab, Grid, Paper} from "@mui/material";
+import {Fab, Grid, Paper, Tooltip} from "@mui/material";
 import StopRoundedIcon from '@mui/icons-material/StopRounded';
-const Chronometer = () => {
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+
+const Countdown = () => {
     const [duration, setDuration] = useState<number>(60);
     const [progress, setProgress] = useState<number>(0);
     const [isRunning, setIsRunning] = useState<boolean>(false)
 
     const onStart = (duration: number) => {
         setDuration(duration)
+        setProgress(0)
         setIsRunning(true)
     }
 
@@ -21,22 +25,22 @@ const Chronometer = () => {
         setProgress(0)
     }
 
-    let chronometerInterval: NodeJS.Timeout;
+    let countdownInterval: NodeJS.Timeout;
 
     useEffect(() => {
         if (isRunning) {
-            chronometerInterval = setInterval(() => {
+            countdownInterval = setInterval(() => {
                 setProgress((prevProgress) => {
-                    if (prevProgress >= duration) {
-                        setIsRunning(false)
-                        return 0
+                    if (Number(prevProgress) >= Number(duration)) {
+                        onStop()
+                        return
                     }
                     return prevProgress + 1
                 });
             }, 1000);
         }
         return () => {
-            clearInterval(chronometerInterval);
+            clearInterval(countdownInterval);
         };
     }, [duration, isRunning]);
 
@@ -44,27 +48,41 @@ const Chronometer = () => {
         <Paper sx={{p: 2}}>
             <Title>Countdown</Title>
             <Grid container spacing={1}>
-                <Grid item xs={12} sx={{display: 'flex', flexWrap: 'wrap', justifyContent:'space-evenly'}}>
-                    {[30, 45, 60, 90].map((duration: number) =>
-                        <Fab key={duration}
-                             size="small"
-                             color="primary"
-                             aria-label="add"
-                             onClick={() => onStart(duration)}>
-                            {duration}
-                        </Fab>
+                <Grid item xs={12} sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
+                    {[5, 30, 45, 60, 90].map((duration: number) =>
+                        <Tooltip key={duration}
+                                 title={`Count down from ${duration}`}>
+                            <Fab size="small"
+                                 color="primary"
+                                 aria-label="add"
+                                 onClick={() => onStart(duration)}>
+                                {duration}
+                            </Fab>
+                        </Tooltip>
                     )}
-                    <Fab size="small"
-                         color="primary"
-                         aria-label="Stop coutdown"
-                         onClick={onStop}>
-                        <StopRoundedIcon />
-                    </Fab>
+                    <Tooltip title="Stop and reset">
+                        <Fab size="small"
+                             color="primary"
+                             aria-label="Stop coutdown"
+                             onClick={onStop}>
+                            <StopRoundedIcon/>
+                        </Fab>
+                    </Tooltip>
+                    <Tooltip title={isRunning ? "Pause" : "Play"}>
+                        <Fab size="small"
+                             color="primary"
+                             aria-label="Pause coutdown"
+                             onClick={() => {
+                                 setIsRunning(!isRunning)
+                             }}>
+                            {isRunning ? <PauseRoundedIcon/> : <PlayArrowRoundedIcon/>}
+                        </Fab>
+                    </Tooltip>
                 </Grid>
-                {isRunning &&
+                {(isRunning || progress > 0) &&
                     <Grid item xs={12} sx={{textAlign: 'center'}}>
                         <Box sx={{position: 'relative', display: 'inline-flex'}}>
-                            <CircularProgress variant="determinate" value={100 * (1 - (progress / duration))}/>
+                            <CircularProgress variant="determinate" value={100 * (1 - Number((progress / duration)))}/>
                             <Box
                                 sx={{
                                     top: 0,
@@ -81,7 +99,7 @@ const Chronometer = () => {
                                     variant="caption"
                                     component="div"
                                     color="text.secondary"
-                                >{Math.round(duration - progress)}s</Typography>
+                                >{(duration - progress)}s</Typography>
                             </Box>
                         </Box>
                     </Grid>
@@ -91,4 +109,4 @@ const Chronometer = () => {
     );
 }
 
-export default Chronometer
+export default Countdown

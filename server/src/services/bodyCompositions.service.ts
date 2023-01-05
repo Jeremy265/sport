@@ -1,5 +1,5 @@
 import {GenericService} from "./generic.service";
-import {getByIdSchema, createSchema, updateSchema} from "../schemas/bodyCompositions.schema";
+import {createSchema, getByIdSchema, updateSchema} from "../schemas/bodyCompositions.schema";
 import {BodyComposition} from "../utils/types";
 import {BodyCompositionsModel} from "../models/bodyCompositions.model";
 
@@ -12,6 +12,11 @@ export class BodyCompositionsService extends GenericService<BodyComposition> {
     getById = (id: number): Promise<BodyComposition> => {
         super.validate({id: id}, getByIdSchema)
         return super.getById({body_composition_id: id})
+    }
+
+    getByUserId = (id: number): Promise<BodyComposition> => {
+        super.validate({id: id}, getByIdSchema)
+        return super.getBy({user_id: id})
     }
 
     create = (body_composition: BodyComposition): Promise<BodyComposition | void> => {

@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {Controller} from "../utils/types";
+import {HttpResponseError} from "../utils/CustomErrors";
 
 export class GenericController implements Controller {
 
@@ -8,6 +9,11 @@ export class GenericController implements Controller {
     constructor(service: any) {
         this.service = service
     }
+
+    validateUser = (userId1: number, userId2: number) => {
+        if (userId1 !== userId2)
+            throw new HttpResponseError(403, 'You can not access other user\'s data')
+        }
 
     get = async (req: Request, res: Response) => {
         try {

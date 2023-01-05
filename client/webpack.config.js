@@ -21,11 +21,6 @@ module.exports = (env, argv) => {
                         loader: "ts-loader",
                     }
                 },
-                {
-                    test: /\.(png|svg|jpg|gif)$/,
-                    loader: "file-loader",
-                    options: { name: '/static/[name].[ext]' }
-                }
             ]
         },
         resolve: {

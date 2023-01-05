@@ -8,6 +8,14 @@ export class BodyCompositionController extends GenericController {
         super(new BodyCompositionsService());
     }
 
+    getByUserId = async (req: Request, res: Response) => {
+        try {
+            res.json(await this.service.getByUserId(Number(req.params.id)))
+        } catch (e: any) {
+            res.status(e.status).send(e.message)
+        }
+    }
+
     create = async (req: Request, res: Response) => {
         try {
             const userId = req.res?.locals.user.user_id

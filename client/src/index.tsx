@@ -9,12 +9,25 @@ import CssBaseline from "@mui/material/CssBaseline";
 const container = document.getElementById('root');
 const root = createRoot(container!);
 
-const Index = () =>
-    <BrowserRouter>
-        <CssBaseline/>
-        <Header/>
-        <Router/>
-        <Footer/>
-    </BrowserRouter>
+const Index = () => {
+    // const token = JSON.parse(localStorage.getItem('user'))?.token
+    //
+    // if (token) {
+    //     const decodedToken: {exp: number} = jwt_decode(token);
+    //     if (decodedToken.exp < new Date().getTime()) {
+    //         localStorage.removeItem('user')
+    //         window.location.href = '/signin'
+    //     }
+    // }
+
+    return (
+        <BrowserRouter>
+            <CssBaseline/>
+            <Header/>
+            <Router/>
+            <Footer/>
+        </BrowserRouter>
+    )
+}
 
 root.render(<Index/>);

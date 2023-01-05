@@ -1,53 +1,47 @@
-import axios, {AxiosError, AxiosPromise, AxiosResponse} from "axios";
-
-export const API_URL = "/api/trainings";
+import {GenericService} from "./generic.service";
+import {AxiosResponse} from "axios";
+import {ISet} from "./sets.service";
 
 export interface ITraining {
     training_id?: number
     title: string;
     date: Date;
+    user_id?: number;
 }
 
+const genericService = new GenericService()
+genericService.setApiUrl(genericService.API_URL_TRAININGS)
+
+export const getTrainings = (): Promise<ITraining[]> =>
+    genericService.get('/')
+        .then((response: AxiosResponse) => {
+            return response.data
+        })
+
 export const createTraining = (training: ITraining): Promise<ITraining> =>
-    axios.post(
-        API_URL,
-        training,
-        {
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-            }
-        }
-    ).then((response: AxiosResponse) =>
-        response.data
-    ).catch((error: AxiosError) => {
-        console.log(error)
-    });
+    genericService.post('/', {
+        title: training.title,
+        date: training.date
+    }).then((response: AxiosResponse) => {
+        return response.data
+    })
 
 export const updateTraining = (training: ITraining): Promise<ITraining> =>
-    axios.put(
-        API_URL + '/' + training.training_id,
-        training,
-        {
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-            }
-        }
-    ).then((response: AxiosResponse) =>
-        response.data
-    ).catch((error: AxiosError) => {
-        console.log(error)
-    });
+    genericService.put('/' + training.training_id, {
+        title: training.title,
+        date: training.date
+    }).then((response: AxiosResponse) => {
+        return response.data
+    })
 
-export const getTrainings = (): any =>
-    axios.get(
-        API_URL,
-        {
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-            }
-        }
-    ).then((response: AxiosResponse) =>
-        response.data
-    ).catch((error: AxiosError) => {
-        console.log(error)
-    });
+export const deleteTraining = (id: number): Promise<ITraining> =>
+    genericService.delete('/' + id)
+        .then((response: AxiosResponse) => {
+            return response.data
+        })
+
+export const getSets = (training: ITraining): Promise<ISet[]> =>
+    genericService.get('/' + training.training_id + '/sets')
+        .then((response: AxiosResponse) => {
+            return response.data
+        })

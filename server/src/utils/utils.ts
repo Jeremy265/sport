@@ -1,15 +1,5 @@
 import {HttpResponseError} from "./CustomErrors";
 
-export const getFormattedErrorFromPrismaError = (error: any): {
-    status: number;
-    message: string;
-} => {
-    return {
-        status: statusByPrismaCodes[error.code] || 500,
-        message: messageByPrismaCodes[error.code] || 'An error occurred'
-    }
-}
-
 const statusByPrismaCodes: {
     [code: string]: number;
 } = {
@@ -41,23 +31,20 @@ const messageByPrismaCodes: {
 
 export const handleError = (e: any) => {
     if (e.name === 'ValidationError') {
-        return new HttpResponseError({
-            status: 400,
-            message: e.details[0].message
-        })
+        return new HttpResponseError(400, e.details[0].message)
     }
     if (e.name === 'NotFoundError') {
-        return new HttpResponseError({status: 404, message: 'Resource not found'});
+        return new HttpResponseError(404, 'Resource not found');
     }
     if (e.code === 'P2002') {
-        return new HttpResponseError({status: 400, message: 'Unique constraint failed on field : ' + e.meta.target})
+        return new HttpResponseError(400, 'Unique constraint failed on field : ' + e.meta.target)
     }
     if (e.code === 'P2003') {
-        return new HttpResponseError({status: 400, message: 'Foreign key constraint failed on field : ' + e.meta.field_name})
+        return new HttpResponseError(400,'Foreign key constraint failed on field : ' + e.meta.field_name)
     }
     if (e.code === 'P2025') {
-        return new HttpResponseError({status: 404, message: e.meta.cause})
+        return new HttpResponseError(404, e.meta.cause)
     }
     console.log(e)
-    return new HttpResponseError(getFormattedErrorFromPrismaError(e))
+    return new HttpResponseError(statusByPrismaCodes[e.code] || 500, messageByPrismaCodes[e.code] || 'An error occurred')
 }

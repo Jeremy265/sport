@@ -24,7 +24,7 @@ export interface Service {
 }
 
 export interface Model {
-    get: () => Promise<any[]>
+    get: (condition: any) => Promise<any[]>
     getById: (conditions: any) => Promise<any>
     getBy: (conditions: any) => Promise<any>
     create: (data: any) => Promise<any>
@@ -34,52 +34,59 @@ export interface Model {
 
 export interface BodyCompositionCategory {
     body_composition_category_id?: number;
-    title: string,
-    unit: string,
+    title: string;
+    unit_id: number;
     created_at: Date;
     updated_at: Date;
 }
 
 export interface BodyComposition {
     body_composition_id?: number;
-    title: string,
-    unit: string,
+    title: string;
+    body_composition_category_id: string;
     created_at: Date;
     updated_at: Date;
 }
 
 export interface Training {
     training_id?: number;
-    title?: string,
-    date: Date,
+    title?: string;
+    date: Date;
     user_id: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface Unit {
+    unit_id?: number;
+    title: string;
     created_at: Date;
     updated_at: Date;
 }
 
 export interface Exercise {
     exercise_id?: number;
-    title: string,
-    image: string,
+    title: string;
+    image: string;
+    unit_id: number;
     created_at: Date;
     updated_at: Date;
 }
 
 export interface Set {
     set_id?: number;
-    number: number,
-    repetitions: number,
-    weight: number,
-    exercise_id: number,
-    training_id: number,
+    repetitions: number;
+    value: number;
+    exercise_id: number;
+    training_id: number;
     created_at: Date;
     updated_at: Date;
 }
 
 export interface User {
     user_id?: number;
-    first_name: string,
-    last_name: string,
+    first_name: string;
+    last_name: string;
     email: string;
     password: string;
     created_at: Date;

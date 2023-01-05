@@ -12,7 +12,7 @@ interface Props {
 const NavbarItem = ({selected, onClick, path, icon, text}: Props) => {
 
     return (
-        <Link to={path} style={{color: '#FFF', textDecoration: 'none'}}>
+        <Link to={path} style={{display: 'flex', flexWrap:'wrap',color: '#FFF', textDecoration: 'none'}}>
             <ListItemButton
                 selected={selected}
                 onClick={onClick}

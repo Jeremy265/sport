@@ -1,6 +1,6 @@
 import {SetsModel} from "../models/sets.model";
 import {GenericService} from "./generic.service";
-import {getByIdSchema, createSchema, updateSchema} from "../schemas/sets.schema";
+import {createSchema, getByIdSchema, updateSchema} from "../schemas/sets.schema";
 import {Set} from "../utils/types";
 
 export class SetsService extends GenericService<Set> {
