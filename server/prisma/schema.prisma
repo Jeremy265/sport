@@ -28,7 +28,7 @@ model body_compositions {
   created_at                   DateTime                    @default(now()) @db.Timestamp(0)
   updated_at                   DateTime                    @default(now()) @db.Timestamp(0)
   users                        users                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "body_compositions_ibfk_1")
-  body_composition_categories  body_composition_categories @relation(fields: [body_composition_category_id], references: [body_composition_category_id], onDelete: NoAction, map: "body_compositions_ibfk_2")
+  body_composition_categories  body_composition_categories @relation(fields: [body_composition_category_id], references: [body_composition_category_id], onDelete: Cascade, map: "body_compositions_ibfk_2")
 
   @@index([body_composition_category_id], map: "body_composition_category_id")
   @@index([user_id], map: "user_id")
