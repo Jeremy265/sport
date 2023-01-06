@@ -3,23 +3,17 @@ import {generateAccessToken} from "../utils/jwt";
 import {UserModel} from "../models/users.model";
 import {comparePasswords, getHashFromPassword} from "../utils/hash";
 import {GenericService} from "./generic.service";
-import {getByIdSchema, createSchema, updateSchema, loginSchema} from "../schemas/users.schema";
+import {UsersSchema} from "../schemas/users.schema";
 import {User, UserLogin} from "../utils/types";
 import {handleError} from "../utils/utils";
 
 export class UsersService extends GenericService<User> {
 
     constructor() {
-        super(new UserModel());
-    }
-
-    getById = (id: number): Promise<User> => {
-        super.validate({id: id}, getByIdSchema)
-        return super.getById({user_id: id})
+        super(new UserModel(), new UsersSchema(), 'user_id');
     }
 
     create = (user: User): Promise<User | void> => {
-        super.validate(user, createSchema)
         return getHashFromPassword(user.password)
             .then((hash: string) => {
                 return super.create({...user, password: hash})
@@ -27,35 +21,36 @@ export class UsersService extends GenericService<User> {
     }
 
     update = (user: User): Promise<User | void> => {
-        super.validate(user, updateSchema)
         return getHashFromPassword(user.password)
             .then((hash: string) => {
-                return super.update({user_id: user.user_id}, {...user, password: hash})
+                return super.updateById(user.user_id, {...user, password: hash})
             })
-    }
-
-    remove = (id: number): Promise<User> => {
-        super.validate({id: id}, getByIdSchema)
-        return super.remove({user_id: id})
     }
 
     getByEmail = (userLogin: UserLogin): Promise<User> => {
-        super.validate(userLogin, loginSchema)
-        return this.model.getByEmail(userLogin.email)
-            .then((user: any) => {
-                return user
-            }).catch((e: any) => {
-                throw handleError(e)
-            })
+        super.validateSchema(userLogin, this.schema.login())
+        return this.model.getBy({
+            email: userLogin.email
+        }).then((users: User[]) => {
+            return users[0]
+        }).catch((e: any) => {
+            throw handleError(e)
+        })
     }
 
     login = (userLogin: UserLogin, user: User): Promise<string> => {
-        super.validate(userLogin, loginSchema)
+        this.validateSchema(userLogin, this.schema.login())
         return comparePasswords(userLogin.password, user.password)
             .then((result: boolean) => {
                 if (!result)
                     throw new HttpResponseError(403, 'Wrong email or password')
-                return generateAccessToken({user_id: user.user_id, first_name: user.first_name, last_name: user.last_name, isAdmin: user.email === 'jeremy.thom26@yahoo.fr'})
+
+                return generateAccessToken({
+                    user_id: user.user_id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    isAdmin: user.email === 'jeremy.thom26@yahoo.fr'
+                })
             })
     }
 

@@ -12,8 +12,8 @@ export class GenericRoute<T> implements Route {
         this.router.get('/', this.controller.get);
         this.router.get('/:id', this.controller.getById);
         this.router.post('/', this.controller.create);
-        this.router.put('/:id', this.controller.update);
-        this.router.delete('/:id', this.controller.remove);
+        this.router.put('/:id', this.controller.updateById);
+        this.router.delete('/:id', this.controller.removeById);
     }
 
     getRouter = (): Router =>

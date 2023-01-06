@@ -1,20 +1,43 @@
+import {Schema} from "../utils/types";
 const Joi = require('joi')
 
-export const getByIdSchema = Joi.object({
-    id: Joi.number().min(1).required()
-})
+export class SetsSchema implements Schema {
 
-export const createSchema = Joi.object({
-    repetitions: Joi.number().required(),
-    value: Joi.number().required(),
-    exercise_id: Joi.number().required(),
-    training_id: Joi.number().required()
-}).required()
+    getById = () => Joi.object({
+        set_id: Joi.number().min(1).required()
+    })
 
-export const updateSchema = Joi.object({
-    repetition_id: Joi.number().min(1).required(),
-    repetitions: Joi.number().required(),
-    value: Joi.number().required(),
-    exercise_id: Joi.number().required(),
-    training_id: Joi.number().required()
-}).required()
+    create = () => Joi.object({
+        repetitions: Joi.number().required(),
+        value: Joi.number().required(),
+        exercise_id: Joi.number().required(),
+        training_id: Joi.number().required()
+    }).unknown().required()
+
+    update = () => Joi.object({
+        set_id: Joi.number().min(1).required(),
+        repetitions: Joi.number(),
+        value: Joi.number(),
+        exercise_id: Joi.number(),
+        training_id: Joi.number()
+    }).unknown().required()
+
+    remove = () => Joi.object({
+        set_id: Joi.number().min(1).required()
+    })
+
+    getByTrainingId = () => Joi.object({
+        training_id: Joi.number().min(1).required()
+    })
+
+}
+
+
+
+
+
+
+
+
+
+

@@ -5,20 +5,15 @@ import {SetsService} from "../services/sets.service";
 export class SetsController extends GenericController {
 
     constructor() {
-        super(new SetsService());
+        super(new SetsService(), false, false, 'trainings');
     }
 
     getByTrainingId = async (req: Request, res: Response) => {
         try {
-            res.json(await this.service.getByTrainingId(Number(req.params.id)))
-        } catch (e: any) {
-            res.status(e.status).send(e.message)
-        }
-    }
-
-    update = async (req: Request, res: Response) => {
-        try {
-            res.json(await this.service.update({repetition_id: Number(req.params.id), ...req.body}))
+            res.json(await this.service.getByTrainingId(
+                this.getUserCondition(this.getUserIdByRequest(req)),
+                Number(req.params.id)
+            ))
         } catch (e: any) {
             res.status(e.status).send(e.message)
         }

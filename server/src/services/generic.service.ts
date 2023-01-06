@@ -1,18 +1,24 @@
 import {handleError} from "../utils/utils";
-import Joi, {ObjectSchema} from "joi";
-import {Service} from "../utils/types";
+import {ObjectSchema} from "joi";
+import {Condition, Service} from "../utils/types";
+
+const Joi = require('Joi')
 
 // For methods that will be used in children with super().xx syntax, do not use arrow functions
 
 export class GenericService<T> implements Service {
 
     protected model: any
+    protected schema: any
+    protected idField: string
 
-    constructor(model: any) {
+    constructor(model: any, schema: any, idField: string) {
         this.model = model
+        this.schema = schema
+        this.idField = idField
     }
 
-    validate(data: any, schema: ObjectSchema): any {
+    validateSchema(data: any, schema: ObjectSchema): any {
         try {
             Joi.attempt(data, schema)
         } catch (e: any) {
@@ -20,8 +26,8 @@ export class GenericService<T> implements Service {
         }
     }
 
-    get(): Promise<T[]> {
-        return this.model.get()
+    get(conditions: Condition): Promise<T[]> {
+        return this.model.get(conditions)
             .then((data: T[]) => {
                 return data
             })
@@ -30,19 +36,21 @@ export class GenericService<T> implements Service {
             })
     }
 
-    getById(conditions: any): Promise<T> {
-        return this.model.getById(conditions)
-            .then((data: T) => {
-                return data
-            })
-            .catch((e: any) => {
-                throw handleError(e)
-            })
+    getById(conditions: Condition, id: any): Promise<T> {
+        this.validateSchema({[this.idField]: id}, this.schema.getById())
+        return this.model.getById({
+            ...conditions,
+            [this.idField]: id
+        }).then((data: T) => {
+            return data
+        }).catch((e: any) => {
+            throw handleError(e)
+        })
     }
 
-    getBy(conditions: any): Promise<T> {
+    getBy(conditions: any): Promise<T[]> {
         return this.model.getBy(conditions)
-            .then((data: T) => {
+            .then((data: T[]) => {
                 return data
             })
             .catch((e: any) => {
@@ -51,6 +59,7 @@ export class GenericService<T> implements Service {
     }
 
     create(data: T): Promise<T | void> {
+        this.validateSchema(data, this.schema.create())
         return this.model.create(data)
             .then((data: T) => {
                 return data
@@ -60,8 +69,9 @@ export class GenericService<T> implements Service {
             })
     }
 
-    update(conditions: any, data: T): Promise<T | void> {
-        return this.model.update(conditions, data)
+    updateById(id: any, data: T): Promise<T | void> {
+        this.validateSchema({[this.idField]: id}, this.schema.update())
+        return this.model.update({[this.idField]: id}, data)
             .then((data: T) => {
                 return data
             })
@@ -70,8 +80,9 @@ export class GenericService<T> implements Service {
             })
     }
 
-    remove(conditions: any): Promise<T> {
-        return this.model.remove(conditions)
+    removeById(id: any): Promise<T> {
+        this.validateSchema({[this.idField]: id}, this.schema.remove())
+        return this.model.remove({[this.idField]: id})
             .then((data: T) => {
                 return data
             })

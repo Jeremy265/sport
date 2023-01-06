@@ -1,20 +1,48 @@
+import {Schema} from "../utils/types";
 const Joi = require('joi')
 
-export const getByIdSchema = Joi.object({
-    id: Joi.number().min(1).required()
-})
+export class BodyCompositionsSchema implements Schema {
 
-export const updateSchema = Joi.object({
-    body_composition_id: Joi.number().min(1).required(),
-    date: Joi.date().required(),
-    value: Joi.number().required(),
-    user_id: Joi.number().required(),
-    body_composition_category_id: Joi.number().required()
-}).required()
+    getById = () => Joi.object({
+        body_composition_id: Joi.number().min(1).required()
+    })
 
-export const createSchema = Joi.object({
-    date: Joi.date().required(),
-    value: Joi.number().required(),
-    user_id: Joi.number().required(),
-    body_composition_category_id: Joi.number().required()
-}).required()
+    create = () => Joi.object({
+        date: Joi.date(),
+        value: Joi.number().required(),
+        user_id: Joi.number().required(),
+        body_composition_category_id: Joi.number().required()
+    }).unknown().required()
+
+    update = () => Joi.object({
+        body_composition_id: Joi.number().min(1).required(),
+        date: Joi.date(),
+        value: Joi.number(),
+        user_id: Joi.number(),
+        body_composition_category_id: Joi.number()
+    }).unknown().required()
+
+    remove = () => Joi.object({
+        body_composition_id: Joi.number().min(1).required()
+    })
+
+    getByUserId = () => Joi.object({
+        user_id: Joi.number().min(1).required()
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,9 @@
 import {GenericModel} from "./generic.model";
 import {PrismaClient} from "@prisma/client";
-import {BodyComposition} from "../utils/types";
+import {BodyComposition, Include} from "../utils/types";
 import {includeBodyCompositionCategories} from "./bodyCompositionCategories.model";
 
-export const includeBodyComposition = {
+export const includeBodyComposition: Include = {
     body_composition_categories: {
         select : {
             title: true,

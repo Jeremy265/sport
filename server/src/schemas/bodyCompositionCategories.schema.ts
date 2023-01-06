@@ -1,16 +1,43 @@
+
+import {Schema} from "../utils/types";
 const Joi = require('joi')
 
-export const getByIdSchema = Joi.object({
-    id: Joi.number().min(1).required()
-})
+export class BodyCompositionCategoriesSchema implements Schema {
 
-export const updateSchema = Joi.object({
-    body_composition_category__id: Joi.number().min(1).required(),
-    title: Joi.string().required(),
-    unit_id: Joi.number().required(),
-}).required()
+    getById = () => Joi.object({
+        body_composition_category_id: Joi.number().min(1).required()
+    })
 
-export const createSchema = Joi.object({
-    title: Joi.string().required(),
-    unit_id: Joi.number().required(),
-}).required()
+    create = () => Joi.object({
+        title: Joi.string().required(),
+        unit_id: Joi.number().required(),
+        isDefault: Joi.boolean(),
+    }).unknown().required()
+
+    update = () => Joi.object({
+        body_composition_category_id: Joi.number().min(1).required(),
+        title: Joi.string(),
+        unit_id: Joi.number(),
+        isDefault: Joi.boolean(),
+    }).unknown().required()
+
+    remove = () => Joi.object({
+        body_composition_category_id: Joi.number().min(1).required()
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

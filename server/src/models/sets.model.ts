@@ -1,9 +1,9 @@
 import {GenericModel} from "./generic.model";
 import {PrismaClient} from "@prisma/client";
-import {Set} from "../utils/types";
+import {Include, Set} from "../utils/types";
 import {includeExercises} from "./exercises.model";
 
-export const includeSets = {
+export const includeSets: Include = {
     exercises: {
         select: {
             title: true,

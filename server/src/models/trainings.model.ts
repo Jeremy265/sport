@@ -1,6 +1,6 @@
-import {GenericModel, Include} from "./generic.model";
+import {GenericModel} from "./generic.model";
 import {PrismaClient} from "@prisma/client";
-import {Training} from "../utils/types";
+import {Training, Include} from "../utils/types";
 import {includeExercises} from "./exercises.model";
 
 export const includeTrainings: Include = {

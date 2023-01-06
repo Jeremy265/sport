@@ -1,23 +1,43 @@
-import {empty} from "@prisma/client/runtime";
-
+import {Schema} from "../utils/types";
 const Joi = require('joi')
 
-export const getByIdSchema = Joi.object({
-    id: Joi.number().min(1).required()
-})
+export class ExercisesSchema implements Schema {
 
-export const createSchema = Joi.object({
-    title: Joi.string().min(2).max(100).required(),
-    image: Joi.string().allow(''),
-    unit_id: Joi.number().required()
-}).required()
+    getById = () => Joi.object({
+        exercise_id: Joi.number().min(1).required()
+    })
 
-export const updateSchema = Joi.object({
-    exercise_id: Joi.number().min(1).required(),
-    title: Joi.string().min(2).max(100).required(),
-    image: Joi.string().allow(''),
-    unit_id: Joi.number().required()
-}).required()
+    create = () => Joi.object({
+        title: Joi.string().min(2).max(100).required(),
+        image: Joi.string().allow(''),
+        unit_id: Joi.number().required(),
+        isDefault: Joi.boolean()
+    }).unknown().required()
+
+    update = () => Joi.object({
+        exercise_id: Joi.number().min(1).required(),
+        title: Joi.string().min(2).max(100),
+        image: Joi.string().allow(''),
+        unit_id: Joi.number(),
+        isDefault: Joi.boolean()
+    }).unknown().required()
+
+    remove = () => Joi.object({
+        exercise_id: Joi.number().min(1).required()
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

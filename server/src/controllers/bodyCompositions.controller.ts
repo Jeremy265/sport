@@ -1,6 +1,7 @@
 import {GenericController} from "./generic.controller";
 import {Request, Response} from "express";
 import {BodyCompositionsService} from "../services/bodyCompositions.service";
+import {HttpResponseError} from "../utils/CustomErrors";
 
 export class BodyCompositionController extends GenericController {
 
@@ -10,31 +11,9 @@ export class BodyCompositionController extends GenericController {
 
     getByUserId = async (req: Request, res: Response) => {
         try {
+            if (Number(req.params.id) !== this.getUserIdByRequest(req))
+                throw new HttpResponseError(403, 'Impostor !')
             res.json(await this.service.getByUserId(Number(req.params.id)))
-        } catch (e: any) {
-            res.status(e.status).send(e.message)
-        }
-    }
-
-    create = async (req: Request, res: Response) => {
-        try {
-            const userId = req.res?.locals.user.user_id
-            if (!userId)
-                res.status(401).send('Invalid token')
-
-            res.json(await this.service.create({
-                ...req.body,
-                date: req.body.date ?? new Date(),
-                user_id: userId
-            }))
-        } catch (e: any) {
-            res.status(e.status).send(e.message)
-        }
-    }
-
-    update = async (req: Request, res: Response) => {
-        try {
-            res.json(await this.service.update({body_composition_id: Number(req.params.id), ...req.body}))
         } catch (e: any) {
             res.status(e.status).send(e.message)
         }

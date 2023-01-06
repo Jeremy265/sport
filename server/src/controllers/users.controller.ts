@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {UsersService} from "../services/users.service";
 import {GenericController} from "./generic.controller";
+import {HttpResponseError} from "../utils/CustomErrors";
 
 export class UsersController extends GenericController {
 
@@ -8,20 +9,13 @@ export class UsersController extends GenericController {
         super(new UsersService());
     }
 
-    getBy = async (req: Request, res: Response) => {
-        try {
-            res.json(await this.service.update({user_id: Number(req.params.id), ...req.body}))
-        } catch (e: any) {
-            res.status(e.status).send(e.message)
-        }
-    }
-
-    update = async (req: Request, res: Response) => {
-        try {
-            res.json(await this.service.update({user_id: Number(req.params.id), ...req.body}))
-        } catch (e: any) {
-            res.status(e.status).send(e.message)
-        }
+    getByIdIfItemOwnedByUserAndExists = async (itemId: number, userId: number) => {
+        if (itemId !== userId)
+            throw new HttpResponseError(403, 'Impostor !')
+        return await this.service.getById(
+            this.getUserCondition(userId),
+            Number(itemId)
+        )
     }
 
     login = async (req: Request, res: Response) => {

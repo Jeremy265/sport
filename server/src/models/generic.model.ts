@@ -1,12 +1,4 @@
-import {Model} from "../utils/types";
-
-export interface Include {
-    [key: string]: boolean | Include;
-}
-
-export interface Condition {
-    [key: string]: number | string | boolean;
-}
+import {Condition, Include, Model} from "../utils/types";
 
 export class GenericModel<T> implements Model {
 
@@ -18,41 +10,42 @@ export class GenericModel<T> implements Model {
         this.includes = includes
     }
 
-    get = (conditions: Condition, includes: Include = this.includes): Promise<T[]> =>
+    get = (conditions: Condition = {}): Promise<T[]> =>
         this.prisma.findMany({
             where: conditions,
-            include: includes
+            include: this.includes
         })
 
-    getById = (conditions: Condition, includes: Include = this.includes): Promise<T> =>
-        this.prisma.findUniqueOrThrow({
+    getById = (conditions: Condition = {}): Promise<T> =>
+        this.prisma.findFirstOrThrow({
             where: conditions,
-            include: includes
+            include: this.includes
         })
 
-    getBy = (conditions: Condition, includes: Include = this.includes): Promise<T> =>
+    getBy = (conditions: Condition = {}): Promise<T[]> =>
         this.prisma.findMany({
             where: conditions,
-            include: includes
+            include: this.includes
         })
 
-    create = (data: T, includes: Include = this.includes): Promise<T> => {
+    create = (data: T): Promise<T> => {
         return this.prisma.create({
             data: data,
-            include: includes
+            include: this.includes
         })
     }
 
-    update = (conditions: Condition, data: T, includes: Include = this.includes): Promise<T> =>
+    update = (conditions: Condition = {}, data: T): Promise<T> =>
         this.prisma.update({
             where: conditions,
             data: data,
-            include: includes
+            include: this.includes
         })
 
-    remove = (conditions: Condition, includes: Include = this.includes): Promise<T> =>
+    remove = (conditions: Condition = {}): Promise<T> =>
         this.prisma.delete({
             where: conditions,
-            include: includes
+            include: this.includes
         })
+
 }
