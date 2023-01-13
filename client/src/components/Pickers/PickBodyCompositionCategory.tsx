@@ -11,15 +11,24 @@ import {removeAccentsAndLower} from "../../utils/utils";
 
 interface Props {
     id: string;
+    loading: boolean;
     onChange: (bodyCompositionCategory: IBodyCompositionCategory | null) => void;
     bodyCompositionCategories: IBodyCompositionCategory[];
     onAddBodyCompositionCategory: (bodyCompositionCategory: IBodyCompositionCategory) => void;
 }
 
-const PickBodyCompositionCategory = ({id, onChange, bodyCompositionCategories, onAddBodyCompositionCategory}: Props) => {
+const PickBodyCompositionCategory = ({
+                                         id,
+                                         onChange,
+                                         bodyCompositionCategories,
+                                         loading,
+                                         onAddBodyCompositionCategory
+                                     }: Props) => {
 
     return <CreatableAutoComplete<IBodyCompositionCategory>
         id={id}
+        itemName="Body Composition Category"
+        loading={loading}
         options={bodyCompositionCategories}
         getOptionByInput={(title: string) =>
             bodyCompositionCategories.find((bodyCompositionCategory: IBodyCompositionCategory) => bodyCompositionCategory.title === title)

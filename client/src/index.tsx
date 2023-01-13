@@ -5,25 +5,26 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Router from "./components/Navigation/Router";
 import CssBaseline from "@mui/material/CssBaseline";
+import Title from "./components/Title/Title";
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 
 const Index = () => {
-    // const token = JSON.parse(localStorage.getItem('user'))?.token
-    //
-    // if (token) {
-    //     const decodedToken: {exp: number} = jwt_decode(token);
-    //     if (decodedToken.exp < new Date().getTime()) {
-    //         localStorage.removeItem('user')
-    //         window.location.href = '/signin'
-    //     }
-    // }
+
+    const getUserName = () => {
+        if (!localStorage.getItem('user'))
+            return
+        const user = JSON.parse(localStorage.getItem('user'))
+        return `${user.first_name} ${user.last_name}`
+    }
+
 
     return (
         <BrowserRouter>
             <CssBaseline/>
             <Header/>
+            <Title>{getUserName()}</Title>
             <Router/>
             <Footer/>
         </BrowserRouter>

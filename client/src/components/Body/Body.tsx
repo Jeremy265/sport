@@ -12,7 +12,7 @@ import {
     Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Chart from '../Chart/Chart';
+import TimeLineChart from '../Chart/TimeLineChart';
 import {deleteBodyComposition, getBodyComposition, IBodyComposition} from "../../services/bodyCompositions.service";
 import {
     deleteBodyCompositionCategory,
@@ -90,13 +90,18 @@ const Body = () => {
     return <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <AddBodyComposition bodyCompositionCategories={bodyCompositionCategories}
-                                    onAddBodyComposition={(bodyComposition: IBodyComposition) =>
-                                        setBodyCompositions([...bodyCompositions, bodyComposition])
-                                    }
-                                    onAddBodyCompositionCategory={(bodyCompositionCategory: IBodyCompositionCategory) =>
-                                        setBodyCompositionCategories([...bodyCompositionCategories, bodyCompositionCategory])
-                                    }
+                <AddBodyComposition
+                    bodyCompositionCategoriesLoading={bodyCompositionCategoriesLoading}
+                    bodyCompositionCategories={bodyCompositionCategories}
+                    onAddBodyComposition={(bodyComposition: IBodyComposition) =>
+                        setBodyCompositions(
+                            [...bodyCompositions, bodyComposition].sort((a, b) =>
+                                new Date(a.date).getTime() - new Date(b.date).getTime())
+                        )
+                    }
+                    onAddBodyCompositionCategory={(bodyCompositionCategory: IBodyCompositionCategory) =>
+                        setBodyCompositionCategories([...bodyCompositionCategories, bodyCompositionCategory])
+                    }
                 />
             </Grid>
             {
@@ -116,12 +121,12 @@ const Body = () => {
                                         sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}
                                     >
                                         <Title>{title}</Title>
-                                        <Delete onDelete={
-                                            () =>
-                                                handleDeleteCategory(bodyCompositionCategory)
-                                        }/>
+                                            <Delete onDelete={
+                                                () =>
+                                                    handleDeleteCategory(bodyCompositionCategory)
+                                            }/>
                                     </Box>
-                                    <Chart
+                                    <TimeLineChart
                                         title={title}
                                         data={
                                             bodyCompositions.filter((bodyComposition: IBodyComposition) =>
@@ -129,7 +134,7 @@ const Body = () => {
                                             ).map((bodyComposition: IBodyComposition) =>
                                                 ({
                                                     x: dayjs(bodyComposition.date).format('DD/MM/YYYY'),
-                                                    y: Math.round(Number(bodyComposition.value))
+                                                    y: Math.round(Number(bodyComposition.value)*10)/10
                                                 })
                                             )
                                         }

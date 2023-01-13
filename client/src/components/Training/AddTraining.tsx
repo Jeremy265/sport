@@ -73,7 +73,7 @@ const AddTraining = ({training, onSubmit}: Props) => {
                     required
                     fullWidth
                     id="title"
-                    label="Training title"
+                    label="TrainingMode title"
                     name="title"
                     autoComplete="off"
                     value={trainingForm.title}

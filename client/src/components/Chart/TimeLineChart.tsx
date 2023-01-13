@@ -1,19 +1,19 @@
 import * as React from 'react';
 import {CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 
-interface Props<T> {
+interface Props {
     title: string;
     data: { x: any, y: any }[];
     xLabel: string;
     yLabel: string;
 }
 
-const Chart = <T, >({
+const TimeLineChart = ({
                         title,
                         data,
                         xLabel,
                         yLabel
-                    }: Props<T>) => {
+                    }: Props) => {
 
     return (
         <ResponsiveContainer width="100%" height={300}>
@@ -56,4 +56,4 @@ const Chart = <T, >({
     );
 }
 
-export default Chart
+export default TimeLineChart

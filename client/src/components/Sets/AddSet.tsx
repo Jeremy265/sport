@@ -22,14 +22,19 @@ const AddSet = ({training_id, onAddSet}: Props) => {
     })
 
     const [exercises, setExercises] = useState<IExercise[]>([])
+    const [exercisesLoading, setExercisesLoading] = useState<boolean>(true)
 
     useEffect(() => {
         getExercises()
             .then((exercises: IExercise[]) => {
                 setExercises(exercises)
-            }).catch((error: Error) => {
-            alert(error.message)
-        })
+            })
+            .catch((error: Error) => {
+                alert(error.message)
+            })
+            .finally(() =>
+                setExercisesLoading(false)
+            )
     }, [])
 
     const handleSaveSet = () => {
@@ -46,6 +51,7 @@ const AddSet = ({training_id, onAddSet}: Props) => {
         <Grid container spacing={3}>
             <Grid item xs={12} sx={{mt: 2}}>
                 <PickExercise id="exercises"
+                              loading={exercisesLoading}
                               exercises={exercises}
                               onAddExercise={(exercise: IExercise) =>
                                   setExercises([...exercises, exercise])
@@ -60,6 +66,7 @@ const AddSet = ({training_id, onAddSet}: Props) => {
                     id="repetitions"
                     fullWidth
                     InputProps={{
+                        type: 'number',
                         inputMode: 'numeric',
                         endAdornment: <InputAdornment position="end">times</InputAdornment>
                     }}
@@ -74,6 +81,7 @@ const AddSet = ({training_id, onAddSet}: Props) => {
                     id="value"
                     fullWidth
                     InputProps={{
+                        type: 'number',
                         inputMode: 'numeric',
                         endAdornment: <InputAdornment position="end">{set.exercises?.units?.title}</InputAdornment>,
                     }}

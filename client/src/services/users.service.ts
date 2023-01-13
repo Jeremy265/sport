@@ -1,7 +1,5 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import {GenericService} from "./generic.service";
-
-export const API_URL = "/api/users";
 
 interface User {
     user_id?: number;
@@ -15,7 +13,6 @@ interface UserSignIn {
     email: string;
     password: string;
 }
-
 
 const genericService = new GenericService()
 genericService.setApiUrl(genericService.API_URL_USERS)
@@ -34,7 +31,6 @@ export const signIn = (user: UserSignIn): Promise<void> =>
 
 
 export const signOut = (): void => {
-    console.log('la')
     localStorage.removeItem('user')
     window.location.href = '/'
 }

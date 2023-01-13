@@ -7,6 +7,9 @@ export interface ITraining {
     title: string;
     date: Date;
     user_id?: number;
+    sets?: ISet[];
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 const genericService = new GenericService()

@@ -2,11 +2,11 @@ import React = require("react");
 import {Route, Routes} from "react-router-dom"
 import Error401 from "../Errors/Error401"
 import Error404 from "../Errors/Error404"
-import Dashboard from "../Dashboard/Dashboard"
 import SignIn from "../SignIn/SignIn"
 import SignUp from "../SignUp/SignUp"
-import Training from "../Training/Training"
+import TrainingMode from "../Training/TrainingMode"
 import Body from "../Body/Body";
+import MyRecentTrainings from "../Training/MyRecentTrainings";
 
 const Router = () => {
 
@@ -14,14 +14,14 @@ const Router = () => {
         <Routes>
             <Route path="/" element={
                 localStorage.getItem('user')
-                    ? <Dashboard/>
+                    ? <MyRecentTrainings/>
                     : <SignIn/>
             }/>
             <Route path="/signin" element={<SignIn/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/training" element={
                 localStorage.getItem('user')
-                    ? <Training/>
+                    ? <TrainingMode/>
                     : <Error401/>
             }/>
             <Route path="/body" element={

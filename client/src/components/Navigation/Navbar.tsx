@@ -2,7 +2,6 @@ import React = require("react");
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import ScaleRoundedIcon from '@mui/icons-material/ScaleRounded';
 import {List,} from "@mui/material";
@@ -16,7 +15,6 @@ interface Menu {
     icon: any;
     mustNotBeLogged: boolean;
     mustBeLogged: boolean;
-    mustBeAdmin: boolean;
     action?: () => void;
 }
 
@@ -24,19 +22,24 @@ const Navbar = () => {
     const menus: Menu[] = [
         {
             path: '/',
+            text: 'Les Sportifs !',
+            icon: '',
+            mustNotBeLogged: false,
+            mustBeLogged: false
+        },
+        {
+            path: '/',
             text: 'Dashboard',
             icon: <DashboardIcon/>,
             mustNotBeLogged: false,
-            mustBeLogged: true,
-            mustBeAdmin: false
+            mustBeLogged: true
         },
         {
             path: '/training',
             text: 'Training mode',
             icon: <FitnessCenterIcon/>,
             mustNotBeLogged: false,
-            mustBeLogged: true,
-            mustBeAdmin: false
+            mustBeLogged: true
         },
         {
             path: '/body',
@@ -44,23 +47,13 @@ const Navbar = () => {
             icon: <ScaleRoundedIcon/>,
             mustNotBeLogged: false,
             mustBeLogged: true,
-            mustBeAdmin: false
         },
         {
             path: '/signin',
             text: 'Sign in',
             icon: <LoginIcon/>,
             mustNotBeLogged: true,
-            mustBeLogged: false,
-            mustBeAdmin: false
-        },
-        {
-            path: '/admin',
-            text: 'Admin',
-            icon: <AdminPanelSettingsIcon/>,
-            mustNotBeLogged: false,
-            mustBeLogged: true,
-            mustBeAdmin: true
+            mustBeLogged: false
         },
         {
             path: '/',
@@ -68,7 +61,6 @@ const Navbar = () => {
             icon: <LogoutIcon/>,
             mustNotBeLogged: false,
             mustBeLogged: true,
-            mustBeAdmin: false,
             action: signOut
         },
     ]
@@ -89,8 +81,6 @@ const Navbar = () => {
                     if (menu.mustNotBeLogged && user)
                         return
                     if (menu.mustBeLogged && !user)
-                        return
-                    if (menu.mustBeAdmin && (!user.isAdmin && user.email !== 'jeremy.thom26@yahoo.fr'))
                         return
                     return <NavbarItem
                         key={index}

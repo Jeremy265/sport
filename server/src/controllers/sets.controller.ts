@@ -5,7 +5,7 @@ import {SetsService} from "../services/sets.service";
 export class SetsController extends GenericController {
 
     constructor() {
-        super(new SetsService(), false, false, 'trainings');
+        super(new SetsService(), false, 'trainings');
     }
 
     getByTrainingId = async (req: Request, res: Response) => {

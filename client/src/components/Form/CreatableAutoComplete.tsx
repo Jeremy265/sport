@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ChangeEvent, KeyboardEventHandler, ReactElement, useState} from "react";
-import {AutocompleteRenderInputParams, Box, CircularProgress, TextField} from "@mui/material";
+import {AutocompleteRenderInputParams, Box, CircularProgress, Grid, TextField} from "@mui/material";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import {FilterOptionsState} from "@mui/base";
 import Dialog from "@mui/material/Dialog";
@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 
 interface Props<T> {
     id: string;
+    itemName: string;
+    loading: boolean;
     options: T[];
     getOptionByInput: (value: string) => T;
     getNewOption: (value?: string) => T;
@@ -26,6 +28,8 @@ interface Props<T> {
 
 const CreatableAutoComplete = <T, >({
                                         id,
+                                        itemName,
+                                        loading,
                                         options,
                                         getOptionByInput,
                                         getNewOption,
@@ -54,8 +58,9 @@ const CreatableAutoComplete = <T, >({
     };
 
     return <>
-        {(options.length === 0 && <CircularProgress/>) || <Autocomplete
+        {(loading && <CircularProgress/>) || <Autocomplete
             id={id}
+            loading={loading}
             options={options}
             value={value}
             clearOnBlur
@@ -100,25 +105,28 @@ const CreatableAutoComplete = <T, >({
         />
         }
         <Dialog open={formOpen} onClose={handleCloseForm}>
-            <DialogTitle>Add new item</DialogTitle>
+            <DialogTitle>Add new {itemName}</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    It will be visible by all users
-                </DialogContentText>
-                {formElements.map((element: ReactElement, index: number) =>
-                    React.cloneElement(element, {
-                        key: index,
-                        defaultValue: element.props.autoFocus ? getOptionLabel(formValue) : '',
-                        onChange: (object: any) => {
-                            setFormValue({
-                                ...formValue,
-                                [element.props.id]: object.currentTarget
-                                    ? object.currentTarget.value
-                                    : object
-                            })
-                        }
-                    })
-                )}
+                <Grid container spacing={3} sx={{marginTop: '', paddingTop:'5px'}}>
+                    {formElements.map((element: ReactElement, index: number) =>
+                        <Grid key={index} item xs={12}>
+                            {
+                                React.cloneElement(element, {
+                                    key: index,
+                                    defaultValue: element.props.autoFocus ? getOptionLabel(formValue) : '',
+                                    onChange: (object: any) => {
+                                        setFormValue({
+                                            ...formValue,
+                                            [element.props.id]: object.currentTarget
+                                                ? object.currentTarget.value
+                                                : object
+                                        })
+                                    }
+                                })
+                            }
+                        </Grid>
+                    )}
+                </Grid>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => handleCloseForm()}>Cancel</Button>

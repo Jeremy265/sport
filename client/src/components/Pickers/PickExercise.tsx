@@ -1,24 +1,25 @@
 import * as React from "react";
-import {ReactElement, useEffect, useState} from "react";
-import {createExercise, getExercises, IExercise} from "../../services/exercises.service";
+import {ReactElement} from "react";
+import {createExercise, IExercise} from "../../services/exercises.service";
 import {AutocompleteRenderInputParams, TextField} from "@mui/material";
 import CreatableAutoComplete from "../Form/CreatableAutoComplete";
 import PickUnit from "./PickUnit";
 import {removeAccentsAndLower} from "../../utils/utils";
-import {IBodyCompositionCategory} from "../../services/bodyCompositionCategories.service";
 
 interface Props {
     id: string;
+    loading: boolean;
     onChange: (exercise: IExercise | null) => void;
     exercises: IExercise[];
     onAddExercise: (exercise: IExercise) => void;
 }
 
-const PickExercise = ({id, onChange, exercises, onAddExercise}: Props) => {
-
+const PickExercise = ({id, loading, onChange, exercises, onAddExercise}: Props) => {
 
     return <CreatableAutoComplete<IExercise>
         id={id}
+        itemName="Exercise"
+        loading={loading}
         options={exercises}
         getOptionByInput={(title: string) =>
             exercises.find((exercise: IExercise) => exercise.title === title)
@@ -66,6 +67,7 @@ const PickExercise = ({id, onChange, exercises, onAddExercise}: Props) => {
                 id="image"
                 label="Image"
                 type="text"
+                disabled
             />,
             <PickUnit id={"units"} onChange={() => {
             }}/>

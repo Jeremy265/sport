@@ -4,14 +4,12 @@ import {Controller} from "../utils/types";
 export class GenericController implements Controller {
 
     protected service: any
-    protected hasDefaultKey: boolean
-    protected hasUserKey: boolean
+    protected gettableByAll: boolean
     protected foreignTableUserKey: string
 
-    constructor(service: any, hasDefaultKey: boolean = false, hasUserKey: boolean = true, foreignTableUserKey: string = '') {
+    constructor(service: any, gettableByAll: boolean = false, foreignTableUserKey: string = '') {
         this.service = service
-        this.hasDefaultKey = hasDefaultKey
-        this.hasUserKey = hasUserKey
+        this.gettableByAll = gettableByAll
         this.foreignTableUserKey = foreignTableUserKey
     }
 
@@ -21,53 +19,36 @@ export class GenericController implements Controller {
         return req.res?.locals.user.user_id
     }
 
-    getUserCondition = (userId: number) => {
-        if (!this.hasDefaultKey) {
-            return this.hasUserKey
-                ? {
-                    user_id: userId
-                }
-                : {
-                    [this.foreignTableUserKey]: {
-                        user_id: userId
-                    }
-                }
-        }
-        return this.hasUserKey
+    getUserCondition = (userId: number | null) =>
+        this.foreignTableUserKey === ''
             ? {
-                'OR': [
-                    {
-                        user_id: userId
-                    },
-                    {
-                        isDefault: true
-                    }
-                ]
+                user_id: userId
             }
             : {
+                [this.foreignTableUserKey]: {
+                    user_id: userId
+                }
+            }
+
+    getConditions = (userId: number, mustBeOwned: boolean = !this.gettableByAll) =>
+        mustBeOwned
+            ? this.getUserCondition(userId)
+            : {
                 'OR': [
-                    {
-                        [this.foreignTableUserKey]: {
-                            user_id: userId
-                        }
-                    },
-                    {
-                        isDefault: true
-                    }
+                    this.getUserCondition(userId),
+                    this.getUserCondition(null),
                 ]
             }
-    }
 
-
-    getByIdIfItemOwnedByUserAndExists = async (itemId: number, userId: number) =>
-        await this.service.getById(
-            this.getUserCondition(userId),
+    getByIdIfItemOwnedByUserAndExists = (itemId: number, userId: number) =>
+        this.service.getById(
+            this.getConditions(userId, true),
             Number(itemId)
         )
 
     get = async (req: Request, res: Response) => {
         try {
-            res.json(await this.service.get(this.getUserCondition(this.getUserIdByRequest(req))))
+            res.json(await this.service.get(this.getConditions(this.getUserIdByRequest(req))))
         } catch (e: any) {
             res.status(e.status).send(e.message)
         }
@@ -75,7 +56,10 @@ export class GenericController implements Controller {
 
     getById = async (req: Request, res: Response) => {
         try {
-            res.json(await this.getByIdIfItemOwnedByUserAndExists(Number(req.params.id), this.getUserIdByRequest(req)))
+            res.json(await this.service.getById(
+                this.getConditions(this.getUserIdByRequest(req)),
+                Number(req.params.id)
+            ))
         } catch (e: any) {
             res.status(e.status).send(e.message)
         }
@@ -83,7 +67,7 @@ export class GenericController implements Controller {
 
     getBy = async (req: Request, res: Response) => {
         try {
-            res.json(await this.service.getBy(this.getUserCondition(this.getUserIdByRequest(req))))
+            res.json(await this.service.getBy(this.getConditions(this.getUserIdByRequest(req))))
         } catch (e: any) {
             res.status(e.status).send(e.message)
         }
@@ -92,7 +76,7 @@ export class GenericController implements Controller {
     create = async (req: Request, res: Response) => {
         try {
             res.json(await this.service.create(
-                this.hasUserKey
+                this.foreignTableUserKey === ''
                     ? {
                         ...req.body,
                         user_id: this.getUserIdByRequest(req)

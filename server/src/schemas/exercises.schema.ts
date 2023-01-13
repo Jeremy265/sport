@@ -11,7 +11,7 @@ export class ExercisesSchema implements Schema {
         title: Joi.string().min(2).max(100).required(),
         image: Joi.string().allow(''),
         unit_id: Joi.number().required(),
-        isDefault: Joi.boolean()
+        is_user_managed: Joi.boolean()
     }).unknown().required()
 
     update = () => Joi.object({
@@ -19,7 +19,7 @@ export class ExercisesSchema implements Schema {
         title: Joi.string().min(2).max(100),
         image: Joi.string().allow(''),
         unit_id: Joi.number(),
-        isDefault: Joi.boolean()
+        is_user_managed: Joi.boolean()
     }).unknown().required()
 
     remove = () => Joi.object({

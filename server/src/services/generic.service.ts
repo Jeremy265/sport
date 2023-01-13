@@ -2,7 +2,7 @@ import {handleError} from "../utils/utils";
 import {ObjectSchema} from "joi";
 import {Condition, Service} from "../utils/types";
 
-const Joi = require('Joi')
+const Joi = require('joi')
 
 // For methods that will be used in children with super().xx syntax, do not use arrow functions
 

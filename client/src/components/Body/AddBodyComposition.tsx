@@ -10,12 +10,14 @@ import PickDate from "../Pickers/PickDate";
 
 interface Props {
     bodyCompositionCategories: IBodyCompositionCategory[];
+    bodyCompositionCategoriesLoading: boolean;
     onAddBodyComposition: (bodyComposition: IBodyComposition) => void;
     onAddBodyCompositionCategory: (bodyCompositionCategory: IBodyCompositionCategory) => void;
 }
 
 const AddBodyComposition = ({
                                 bodyCompositionCategories,
+                                bodyCompositionCategoriesLoading,
                                 onAddBodyComposition,
                                 onAddBodyCompositionCategory
                             }: Props) => {
@@ -51,6 +53,7 @@ const AddBodyComposition = ({
             </Grid>
             <Grid item xs={12} md={6}>
                 <PickBodyCompositionCategory id="categories"
+                                             loading={bodyCompositionCategoriesLoading}
                                              bodyCompositionCategories={bodyCompositionCategories}
                                              onAddBodyCompositionCategory={(bodyCompositionCategory: IBodyCompositionCategory) =>
                                                  onAddBodyCompositionCategory(bodyCompositionCategory)
@@ -70,6 +73,7 @@ const AddBodyComposition = ({
                     fullWidth
                     disabled={!bodyComposition.body_composition_category_id}
                     InputProps={{
+                        type: 'number',
                         inputMode: 'numeric',
                         endAdornment: <InputAdornment
                             position="end">{bodyComposition.body_composition_categories?.units?.title}</InputAdornment>,

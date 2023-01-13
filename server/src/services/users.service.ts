@@ -29,10 +29,10 @@ export class UsersService extends GenericService<User> {
 
     getByEmail = (userLogin: UserLogin): Promise<User> => {
         super.validateSchema(userLogin, this.schema.login())
-        return this.model.getBy({
+        return this.model.getById({
             email: userLogin.email
-        }).then((users: User[]) => {
-            return users[0]
+        }).then((user: User) => {
+            return user
         }).catch((e: any) => {
             throw handleError(e)
         })
@@ -48,8 +48,7 @@ export class UsersService extends GenericService<User> {
                 return generateAccessToken({
                     user_id: user.user_id,
                     first_name: user.first_name,
-                    last_name: user.last_name,
-                    isAdmin: user.email === 'jeremy.thom26@yahoo.fr'
+                    last_name: user.last_name
                 })
             })
     }

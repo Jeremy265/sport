@@ -44,6 +44,10 @@ export class GenericService {
         }).then((response: AxiosResponse) => {
             return response
         }).catch((error: AxiosError) => {
+            if (error.response.status === 403) {
+                localStorage.removeItem('user')
+                window.location.href = '/signin'
+            }
             throw Error(`${error.response.statusText} : ${error.response.data}`)
         })
     }

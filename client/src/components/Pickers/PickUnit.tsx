@@ -13,18 +13,25 @@ interface Props {
 const PickUnit = ({id, onChange}: Props) => {
 
     const [units, setUnits] = useState<IUnit[]>([])
+    const [unitsLoading, setUnitsLoading] = useState<boolean>(true)
 
     useEffect(() => {
         getUnits()
             .then((units: IUnit[]) => {
                 setUnits(units)
-            }).catch((error: Error) => {
-            alert(error.message)
-        })
+            })
+            .catch((error: Error) => {
+                alert(error.message)
+            })
+            .finally(() =>
+                setUnitsLoading(false)
+            )
     }, [])
 
     return <CreatableAutoComplete<IUnit>
         id={id}
+        itemName="Unit"
+        loading={unitsLoading}
         options={units}
         getOptionByInput={(title: string) =>
             units.find((unit: IUnit) => unit.title === title)

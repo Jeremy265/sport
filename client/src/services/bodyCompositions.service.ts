@@ -21,7 +21,6 @@ export const getBodyComposition = (): Promise<IBodyComposition[]> =>
         })
 
 export const createBodyComposition = (bodyComposition: IBodyComposition): Promise<IBodyComposition> => {
-    console.log(bodyComposition)
     return genericService.post('/', {
         date: bodyComposition.date,
         value: bodyComposition.value,

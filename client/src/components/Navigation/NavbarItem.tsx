@@ -10,14 +10,13 @@ interface Props {
     text: string;
 }
 const NavbarItem = ({selected, onClick, path, icon, text}: Props) => {
-
     return (
-        <Link to={path} style={{display: 'flex', flexWrap:'wrap',color: '#FFF', textDecoration: 'none'}}>
+        <Link to={path} style={{display: 'flex', flexWrap:'wrap', color: '#FFF', textDecoration: 'none', minWidth: '150px'}}>
             <ListItemButton
                 selected={selected}
                 onClick={onClick}
             >
-                <ListItemIcon style={{color:'#FFF', minWidth: '30px'}}>
+                <ListItemIcon style={{color:'#FFF', minWidth: '150px'}}>
                     {icon}
                 </ListItemIcon>
                 <ListItemText primary={text}/>

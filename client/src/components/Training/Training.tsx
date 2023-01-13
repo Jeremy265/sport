@@ -1,77 +1,74 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {Container, Grid} from "@mui/material";
-import Countdown from "./Countdown";
-import {getSets, ITraining} from "../../services/trainings.service";
-import AddSet from "../Sets/AddSet";
+import {Grid} from "@mui/material";
+import {deleteTraining, ITraining} from "../../services/trainings.service";
 import {ISet} from "../../services/sets.service";
 import Sets from "../Sets/Sets";
-import AddTraining from "./AddTraining";
+import Delete from "../Form/Delete";
+import Title from "../Title/Title";
+import CustomBarChart from "../Chart/BarChart";
+import {getSetsByExercises, getWeightSumBySets} from "../../utils/utils";
+import {IExercise} from "../../services/exercises.service";
+import {IUnit} from "../../services/units.service";
+import HorizontalBarChart from "../Chart/HorizontalBarChart";
 
-const Training = () => {
-    const [training, setTraining] = useState<ITraining>(
-            localStorage.getItem('current_training') !== "undefined"
-            ? JSON.parse(localStorage.getItem('current_training'))
-            : undefined
-    )
-    const [sets, setSets] = useState<ISet[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
+interface Props {
+    training: ITraining;
+    onDeleteTraining: (training: ITraining) => void;
+    onDeleteSet: (set: ISet) => void;
+}
 
-    useEffect(() => {
-        if (!training)
-            return
+const Training = ({training, onDeleteTraining, onDeleteSet}: Props) => {
 
-        getSets(training)
-            .then((sets: ISet[]) => {
-                setSets(sets)
-            }).catch((error: Error) => {
-            alert(error.message)
-        }).finally(() => {
-            setLoading(false)
-        })
-    }, [training])
+        const handleDeleteTraining = () => {
+        deleteTraining(training.training_id)
+            .then((training: ITraining) =>
+                onDeleteTraining(training)
+            )
+            .catch((error: Error) =>
+                alert(error.message)
+            )
+    }
 
-    return <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
-        <Grid container spacing={3}>
-            <Grid item xs={12} md={8}>
-                <AddTraining
-                    training={training}
-                    onSubmit={
-                        (training: ITraining) => {
-                            localStorage.setItem('current_training', JSON.stringify(training))
-                            setTraining(training)
+    return <Grid container spacing={3}>
+        <Grid item xs={12} sx={{display: 'flex', justifyContent: 'space-between'}}>
+            <Title>{training.title}</Title>
+            <Delete onDelete={handleDeleteTraining}/>
+        </Grid>
+        <Grid item xs={12}>
+            {
+                Object.values(
+                    getSetsByExercises(training.sets)
+                        .reduce((acc: { [key: string]: { unit: IUnit, sets: ISet[] } }, setsByExercise: { exercise: IExercise, sets: ISet[] }) => {
+                            if (!acc[setsByExercise.exercise.units.title])
+                                acc[setsByExercise.exercise.units.title] = {
+                                    unit: setsByExercise.exercise.units,
+                                    sets: []
+                                }
+                            setsByExercise.sets.map((set: ISet) =>
+                                acc[setsByExercise.exercise.units.title].sets.push(set)
+                            )
+                            return acc
+                        }, {} as { [key: string]: { unit: IUnit, sets: ISet[] } })
+                ).map((setsByUnit: { unit: IUnit, sets: ISet[] }) =>
+                    <HorizontalBarChart
+                        key={setsByUnit.unit.title}
+                        data={
+                            getWeightSumBySets(setsByUnit.sets)
                         }
-                    }
-                />
-            </Grid>
-            {training &&
-                <>
-                    <Grid item xs={12} md={4}>
-                        <Countdown/>
-                    </Grid>
-                    <Grid item xs={12} md={8}>
-                        <AddSet
-                            training_id={training.training_id}
-                            onAddSet={
-                                (set: ISet) => {
-                                    setSets([...sets, set])
-                                }
-                            }/>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <Sets
-                            loading={loading}
-                            sets={sets}
-                            onDeleteSet={
-                                (deletedSet: ISet) => {
-                                    setSets(sets.filter((set: ISet) => set.set_id !== deletedSet.set_id))
-                                }
-                            }/>
-                    </Grid>
-                </>
+                        xLabel={`Sum (${setsByUnit.unit.title})`}
+                        yLabel="Exercise"
+                    />
+                )
             }
         </Grid>
-    </Container>
+        <Grid item xs={12}>
+            <Sets
+                loading={false}
+                sets={training.sets}
+                onDeleteSet={onDeleteSet}
+            />
+        </Grid>
+    </Grid>
 
 }
 

@@ -11,7 +11,6 @@ model body_composition_categories {
   body_composition_category_id Int                 @id @default(autoincrement())
   title                        String              @db.VarChar(45)
   unit_id                      Int
-  isDefault                    Boolean?            @default(false)
   user_id                      Int?
   created_at                   DateTime            @default(now()) @db.Timestamp(0)
   updated_at                   DateTime            @default(now()) @db.Timestamp(0)
@@ -43,7 +42,6 @@ model exercises {
   title       String   @db.VarChar(45)
   image       String?  @db.VarChar(45)
   unit_id     Int
-  isDefault   Boolean? @default(false)
   user_id     Int?
   created_at  DateTime @default(now()) @db.Timestamp(0)
   updated_at  DateTime @default(now()) @db.Timestamp(0)
@@ -101,7 +99,6 @@ model users {
 model units {
   unit_id                     Int                           @id @default(autoincrement())
   title                       String                        @db.VarChar(45)
-  isDefault                   Boolean?                      @default(false)
   user_id                     Int?
   created_at                  DateTime                      @default(now()) @db.Timestamp(0)
   updated_at                  DateTime                      @default(now()) @db.Timestamp(0)
