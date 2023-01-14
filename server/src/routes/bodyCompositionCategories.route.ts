@@ -4,8 +4,9 @@ import {BodyCompositionCategoriesController} from "../controllers/bodyCompositio
 export class BodyCompositionCategoriesRoute extends GenericRoute<BodyCompositionCategoriesController> {
 
     constructor() {
-        super(new BodyCompositionCategoriesController());
-        this.router.post('/:id/visibilities', this.controller.updateVisibilityById)
+        const controller = new BodyCompositionCategoriesController()
+        super(controller, [controller.addUserConditionInclude]);
+        this.router.post('/:id/visibility', this.controller.updateVisibilityById)
     }
 
 }

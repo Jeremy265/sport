@@ -21,7 +21,7 @@ app.use('/api/units', new UnitsRoute().getRouter())
 app.use('/api/exercises', new ExercisesRoute().getRouter())
 app.use('/api/body-compositions/categories', new BodyCompositionCategoriesRoute().getRouter())
 app.use('/api/body-compositions', new BodyCompositionsRoute().getRouter())
-app.use('/api/*', (req: Request, res: Response) => {
+app.use('/api', (req: Request, res: Response) => {
     res.status(404).send()
 })
 

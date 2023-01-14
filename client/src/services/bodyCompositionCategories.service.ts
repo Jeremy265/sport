@@ -7,15 +7,28 @@ export interface IBodyCompositionCategory {
     title: string;
     unit_id: number;
     units?: IUnit;
+    visible?: boolean;
+    body_composition_category_visibilities?: { visible: boolean }[]
 }
 
 const genericService = new GenericService()
 genericService.setApiUrl(genericService.API_URL_BODYCOMPOSITIONCATEGORIES)
 
+const handleObject = (bodyCompositionCategory: IBodyCompositionCategory): IBodyCompositionCategory =>
+    ({
+        ...bodyCompositionCategory,
+        visible: bodyCompositionCategory.body_composition_category_visibilities[0]?.visible ?? false
+    })
+
+const handleArray = (bodyCompositionCategories: IBodyCompositionCategory[]): IBodyCompositionCategory[] =>
+    bodyCompositionCategories.map((bodyCompositionCategory: IBodyCompositionCategory) =>
+        handleObject(bodyCompositionCategory)
+    )
+
 export const getBodyCompositionCategories = (): Promise<IBodyCompositionCategory[]> =>
     genericService.get('/')
         .then((response: AxiosResponse) => {
-            return response.data
+            return handleArray(response.data)
         })
 
 export const createBodyCompositionCategory = (bodyCompositionCategory: IBodyCompositionCategory): Promise<IBodyCompositionCategory> =>
@@ -23,11 +36,20 @@ export const createBodyCompositionCategory = (bodyCompositionCategory: IBodyComp
         title: bodyCompositionCategory.title,
         unit_id: bodyCompositionCategory.unit_id
     }).then((response: AxiosResponse) => {
-        return response.data
+        return handleObject(response.data)
     })
 
 export const deleteBodyCompositionCategory = (bodyCompositionCategory: IBodyCompositionCategory): Promise<IBodyCompositionCategory> =>
     genericService.delete('/' + bodyCompositionCategory.body_composition_category_id)
         .then((response: AxiosResponse) => {
-            return response.data
+            return handleObject(response.data)
         })
+
+export const updateVisibilities = (visibilities: any) => {
+    for (const [id, visible] of visibilities) {
+        genericService.post('/' + id + '/visibility', {visible: visible})
+            .then((response: AxiosResponse) => {
+                return handleObject(response.data)
+            })
+    }
+}

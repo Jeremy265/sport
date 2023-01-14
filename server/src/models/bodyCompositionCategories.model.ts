@@ -28,20 +28,19 @@ export class BodyCompositionCategoriesModel extends GenericModel<BodyComposition
                 user_id: userId
             }
         })
-
-        console.log(includeBodyCompositionCategories)
+        this.includes = includeBodyCompositionCategories
+        console.log(this.includes)
     }
 
-    updateVisibilityById = (conditions: Condition = {}, data: BodyCompositionCategoryVisibility): Promise<BodyCompositionCategoryVisibility> => {
+    updateVisibilityById = (conditions: Condition = {}, data: BodyCompositionCategoryVisibility): Promise<any> => {
         return this.visibilitiesPrisma.findFirstOrThrow({
             where: conditions
-        }).then((data: BodyCompositionCategoryVisibility) => {
+        }).then((_) => {
             return this.visibilitiesPrisma.updateMany({
                 where: conditions,
                 data: data
             })
         }).catch((e: any) => {
-            console.log('ERRORRRRRR', e)
             if (e.name === 'NotFoundError')
                 return this.visibilitiesPrisma.create({
                     data: data

@@ -25,10 +25,8 @@ import Delete from "../Form/Delete";
 import * as dayjs from "dayjs";
 import PaginatedTable from "../Table/PaginatedTable";
 import SetCategories from "./SetCategories";
-import {getVisibleBodyCompositionCategories} from "../../services/users.service";
 
 const Body = () => {
-    const [visibleBodyCompositionCategories, setVisibleBodyCompositionCategories] = useState<IBodyCompositionCategory[]>([])
     const [bodyCompositionCategories, setBodyCompositionCategories] = useState<IBodyCompositionCategory[]>([])
     const [bodyCompositions, setBodyCompositions] = useState<IBodyComposition[]>([])
 
@@ -45,14 +43,6 @@ const Body = () => {
             )
             .finally(() =>
                 setBodyCompositionCategoriesLoading(false)
-            )
-
-        getVisibleBodyCompositionCategories()
-            .then((bodyCompositionCategories: IBodyCompositionCategory[]) =>
-                setVisibleBodyCompositionCategories(bodyCompositionCategories)
-            )
-            .catch((error: Error) =>
-                alert(error.message)
             )
 
         getBodyComposition()
@@ -101,7 +91,7 @@ const Body = () => {
 
     return <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
         <Grid container spacing={3}>
-            <SetCategories visibleBodyCompositionCategories={visibleBodyCompositionCategories} bodyCompositionCategories={bodyCompositionCategories}/>
+            <SetCategories bodyCompositionCategories={bodyCompositionCategories}/>
             <Grid item xs={12}>
                 <AddBodyComposition
                     bodyCompositionCategoriesLoading={bodyCompositionCategoriesLoading}

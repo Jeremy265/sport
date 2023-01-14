@@ -35,9 +35,3 @@ export const signOut = (): void => {
     localStorage.removeItem('user')
     window.location.href = '/'
 }
-
-export const getVisibleBodyCompositionCategories = (): Promise<IBodyCompositionCategory[]> =>
-    genericService.get('/body-compositions/categories')
-        .then((response: AxiosResponse) => {
-            return response.data
-        })
