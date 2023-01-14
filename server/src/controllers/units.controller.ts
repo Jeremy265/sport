@@ -1,5 +1,4 @@
 import {GenericController} from "./generic.controller";
-import {Request, Response} from "express";
 import {UnitsService} from "../services/units.service";
 
 export class UnitsController extends GenericController {

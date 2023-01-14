@@ -20,8 +20,8 @@ export class GenericService {
     API_URL_UNITS = '/units'
     API_URL_EXERCISES = '/exercises'
     API_URL_SETS = '/sets'
-    API_URL_BODYCOMPOSITIONS = '/bodyCompositions'
-    API_URL_BODYCOMPOSITIONCATEGORIES = '/bodyCompositionCategories'
+    API_URL_BODYCOMPOSITIONS = '/body-compositions'
+    API_URL_BODYCOMPOSITIONCATEGORIES = '/body-compositions/categories'
 
     request = (method: 'get' | 'post' | 'put' | 'delete', url: string, params: any): Promise<any> => {
         if (!['get', 'post', 'put', 'delete'].includes(method))

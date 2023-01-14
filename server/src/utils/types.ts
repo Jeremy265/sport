@@ -6,7 +6,7 @@ export interface Route {
 }
 
 export interface Include {
-    [key: string]: boolean | Include;
+    [key: string]: boolean | number | Include;
 }
 
 export interface Condition {
@@ -52,6 +52,14 @@ export interface BodyCompositionCategory {
     title: string;
     unit_id: number;
     user_id?: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface BodyCompositionCategoryVisibility {
+    body_composition_category_id: number;
+    user_id: number;
+    visible: boolean;
     created_at: Date;
     updated_at: Date;
 }

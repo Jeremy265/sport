@@ -19,8 +19,11 @@ app.use('/api/trainings', new TrainingsRoute().getRouter())
 app.use('/api/sets', new SetsRoute().getRouter())
 app.use('/api/units', new UnitsRoute().getRouter())
 app.use('/api/exercises', new ExercisesRoute().getRouter())
-app.use('/api/bodyCompositions', new BodyCompositionsRoute().getRouter())
-app.use('/api/bodyCompositionCategories', new BodyCompositionCategoriesRoute().getRouter())
+app.use('/api/body-compositions/categories', new BodyCompositionCategoriesRoute().getRouter())
+app.use('/api/body-compositions', new BodyCompositionsRoute().getRouter())
+app.use('/api/*', (req: Request, res: Response) => {
+    res.status(404).send()
+})
 
 const path = require("path");
 const clientDir = path.join(__dirname, "../../client/dist");

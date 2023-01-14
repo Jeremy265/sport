@@ -3,7 +3,7 @@ import {Condition, Include, Model} from "../utils/types";
 export class GenericModel<T> implements Model {
 
     protected prisma: any
-    private readonly includes: Include
+    protected includes: Include
 
     constructor(prismaClient: any, includes: Include = {}) {
         this.prisma = prismaClient

@@ -10,16 +10,14 @@ export class ExercisesSchema implements Schema {
     create = () => Joi.object({
         title: Joi.string().min(2).max(100).required(),
         image: Joi.string().allow(''),
-        unit_id: Joi.number().required(),
-        is_user_managed: Joi.boolean()
+        unit_id: Joi.number().required()
     }).unknown().required()
 
     update = () => Joi.object({
         exercise_id: Joi.number().min(1).required(),
         title: Joi.string().min(2).max(100),
         image: Joi.string().allow(''),
-        unit_id: Joi.number(),
-        is_user_managed: Joi.boolean()
+        unit_id: Joi.number()
     }).unknown().required()
 
     remove = () => Joi.object({
@@ -41,4 +39,4 @@ export class ExercisesSchema implements Schema {
 
 
 
-    
+

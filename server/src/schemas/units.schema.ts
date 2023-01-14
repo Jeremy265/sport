@@ -9,15 +9,13 @@ export class UnitsSchema implements Schema {
 
     create = () => Joi.object({
         title: Joi.string().min(1).max(100).required(),
-        is_user_managed: Joi.boolean()
     }).unknown().required()
 
     update = () => Joi.object({
         unit_id: Joi.number().min(1).required(),
         title: Joi.string().min(1).max(100),
-        is_user_managed: Joi.boolean()
     }).unknown().required()
-    
+
     remove = () => Joi.object({
         unit_id: Joi.number().min(1).required()
     }).unknown().required()
@@ -29,4 +27,4 @@ export class UnitsSchema implements Schema {
 
 
 
-    
+

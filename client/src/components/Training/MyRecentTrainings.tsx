@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import Title from '../Title/Title';
-import {deleteTraining, getTrainings, ITraining} from "../../services/trainings.service";
-import {Container, Divider, Grid, Paper, Typography} from '@mui/material';
+import {getTrainings, ITraining} from "../../services/trainings.service";
+import {Container, Divider, Grid, Paper} from '@mui/material';
 import Calendar from '../Form/Calendar';
 import Training from "./Training";
 import {ISet} from "../../services/sets.service";
@@ -26,9 +26,10 @@ export default function MyRecentTrainings() {
         getTrainings()
             .then((trainings: ITraining[]) => {
                 setTrainings(trainings)
-            }).catch((error: any) => {
-            alert(error)
-        })
+            })
+            .catch((error: any) => {
+                alert(error)
+            })
     }, [])
 
     return (

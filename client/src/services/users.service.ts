@@ -1,5 +1,6 @@
 import {AxiosResponse} from "axios";
 import {GenericService} from "./generic.service";
+import {IBodyCompositionCategory} from "./bodyCompositionCategories.service";
 
 interface User {
     user_id?: number;
@@ -34,3 +35,9 @@ export const signOut = (): void => {
     localStorage.removeItem('user')
     window.location.href = '/'
 }
+
+export const getVisibleBodyCompositionCategories = (): Promise<IBodyCompositionCategory[]> =>
+    genericService.get('/body-compositions/categories')
+        .then((response: AxiosResponse) => {
+            return response.data
+        })

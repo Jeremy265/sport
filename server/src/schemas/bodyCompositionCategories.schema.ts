@@ -11,18 +11,22 @@ export class BodyCompositionCategoriesSchema implements Schema {
     create = () => Joi.object({
         title: Joi.string().required(),
         unit_id: Joi.number().required(),
-        is_user_managed: Joi.boolean(),
     }).unknown().required()
 
     update = () => Joi.object({
         body_composition_category_id: Joi.number().min(1).required(),
         title: Joi.string(),
         unit_id: Joi.number(),
-        is_user_managed: Joi.boolean(),
     }).unknown().required()
 
     remove = () => Joi.object({
         body_composition_category_id: Joi.number().min(1).required()
+    })
+
+    updateVisibilityById = () => Joi.object({
+        body_composition_category_id: Joi.number().min(1).required(),
+        user_id: Joi.number().min(1).required(),
+        visible: Joi.boolean().required()
     })
 
 }

@@ -1,7 +1,6 @@
-import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {Tooltip} from "@mui/material";
 import * as React from "react";
+import CustomIconButton from "./CustomIconButton";
 
 interface Props {
     onDelete: () => void;
@@ -9,15 +8,7 @@ interface Props {
 
 const Delete = ({onDelete} :Props) => {
     return (
-        <Tooltip title="Delete">
-            <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={onDelete}
-            >
-                <DeleteIcon/>
-            </IconButton>
-        </Tooltip>
+        <CustomIconButton onClick={onDelete} icon={<DeleteIcon/>} toolTip={"Delete"}/>
     )
 }
 
