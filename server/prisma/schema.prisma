@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -12,49 +12,59 @@ model body_composition_categories {
   title                                  String                                   @db.VarChar(45)
   unit_id                                Int
   user_id                                Int?
-  created_at                             DateTime?                                @default(now()) @db.Timestamptz(6)
-  updated_at                             DateTime?                                @default(now()) @db.Timestamptz(6)
-  units                                  units                                    @relation(fields: [unit_id], references: [unit_id], onDelete: Cascade)
-  users                                  users?                                   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  created_at                             DateTime                                 @default(now()) @db.Timestamp(0)
+  updated_at                             DateTime                                 @default(now()) @db.Timestamp(0)
+  units                                  units                                    @relation(fields: [unit_id], references: [unit_id], onDelete: Cascade, map: "body_composition_categories_ibfk_1")
+  users                                  users?                                   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "body_composition_categories_ibfk_2")
   body_composition_category_visibilities body_composition_category_visibilities[]
   body_compositions                      body_compositions[]
+
+  @@index([unit_id], map: "unit_id")
+  @@index([user_id], map: "user_id")
 }
 
 model body_composition_category_visibilities {
   body_composition_category_id Int
   user_id                      Int
   visible                      Boolean?
-  created_at                   DateTime?                   @default(now()) @db.Timestamptz(6)
-  updated_at                   DateTime?                   @default(now()) @db.Timestamptz(6)
-  body_composition_categories  body_composition_categories @relation(fields: [body_composition_category_id], references: [body_composition_category_id], onDelete: Cascade, map: "body_composition_category_vis_body_composition_category_id_fkey")
-  users                        users                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  created_at                   DateTime                    @default(now()) @db.Timestamp(0)
+  updated_at                   DateTime                    @default(now()) @db.Timestamp(0)
+  body_composition_categories  body_composition_categories @relation(fields: [body_composition_category_id], references: [body_composition_category_id], onDelete: Cascade, map: "body_composition_category_visibilities_ibfk_1")
+  users                        users                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "body_composition_category_visibilities_ibfk_2")
 
   @@id([body_composition_category_id, user_id])
+  @@index([user_id], map: "user_id")
 }
 
 model body_compositions {
   body_composition_id          Int                         @id @default(autoincrement())
-  date                         DateTime?                   @default(now()) @db.Timestamptz(6)
+  date                         DateTime                    @default(now()) @db.Timestamp(0)
   value                        Decimal                     @db.Decimal(5, 2)
   body_composition_category_id Int
   user_id                      Int
-  created_at                   DateTime?                   @default(now()) @db.Timestamptz(6)
-  updated_at                   DateTime?                   @default(now()) @db.Timestamptz(6)
-  body_composition_categories  body_composition_categories @relation(fields: [body_composition_category_id], references: [body_composition_category_id], onDelete: Cascade)
-  users                        users                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  created_at                   DateTime                    @default(now()) @db.Timestamp(0)
+  updated_at                   DateTime                    @default(now()) @db.Timestamp(0)
+  users                        users                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "body_compositions_ibfk_1")
+  body_composition_categories  body_composition_categories @relation(fields: [body_composition_category_id], references: [body_composition_category_id], onDelete: Cascade, map: "body_compositions_ibfk_2")
+
+  @@index([body_composition_category_id], map: "body_composition_category_id")
+  @@index([user_id], map: "user_id")
 }
 
 model exercises {
-  exercise_id Int       @id @default(autoincrement())
-  title       String    @db.VarChar(45)
-  image       String?   @db.VarChar(45)
+  exercise_id Int      @id @default(autoincrement())
+  title       String   @db.VarChar(45)
+  image       String?  @db.VarChar(45)
   unit_id     Int
   user_id     Int?
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
-  units       units     @relation(fields: [unit_id], references: [unit_id], onDelete: Cascade)
-  users       users?    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+  units       units    @relation(fields: [unit_id], references: [unit_id], onDelete: Cascade, map: "exercises_ibfk_1")
+  users       users?   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "exercises_ibfk_2")
   sets        sets[]
+
+  @@index([unit_id], map: "unit_id")
+  @@index([user_id], map: "user_id")
 }
 
 model sets {
@@ -63,43 +73,49 @@ model sets {
   value       Decimal   @db.Decimal(4, 1)
   exercise_id Int
   training_id Int
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
-  exercises   exercises @relation(fields: [exercise_id], references: [exercise_id], onDelete: Cascade)
-  trainings   trainings @relation(fields: [training_id], references: [training_id], onDelete: Cascade)
+  created_at  DateTime  @default(now()) @db.Timestamp(0)
+  updated_at  DateTime  @default(now()) @db.Timestamp(0)
+  trainings   trainings @relation(fields: [training_id], references: [training_id], onDelete: Cascade, map: "sets_ibfk_1")
+  exercises   exercises @relation(fields: [exercise_id], references: [exercise_id], onDelete: Cascade, map: "sets_ibfk_2")
+
+  @@index([exercise_id], map: "exercise_id")
+  @@index([training_id], map: "training_id")
 }
 
 model trainings {
   training_id Int      @id @default(autoincrement())
   title       String?  @db.VarChar(45)
-  date        DateTime @default(now()) @db.Timestamptz(6)
+  date        DateTime @default(now()) @db.Timestamp(0)
   user_id     Int
-  created_at  DateTime @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
   sets        sets[]
-  users       users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  users       users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "trainings_ibfk_1")
+
+  @@index([user_id], map: "user_id")
 }
 
 model units {
   unit_id                     Int                           @id @default(autoincrement())
   title                       String                        @db.VarChar(45)
   user_id                     Int?
-  is_user_managed             Boolean?                      @default(false)
-  created_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
-  updated_at                  DateTime?                     @default(now()) @db.Timestamptz(6)
+  created_at                  DateTime                      @default(now()) @db.Timestamp(0)
+  updated_at                  DateTime                      @default(now()) @db.Timestamp(0)
   body_composition_categories body_composition_categories[]
   exercises                   exercises[]
-  users                       users?                        @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  users                       users?                        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "units_ibfk_1")
+
+  @@index([user_id], map: "user_id")
 }
 
 model users {
   user_id                                Int                                      @id @default(autoincrement())
   first_name                             String                                   @db.VarChar(45)
   last_name                              String                                   @db.VarChar(45)
-  email                                  String                                   @unique @db.VarChar(100)
+  email                                  String                                   @unique(map: "email") @db.VarChar(100)
   password                               String                                   @db.VarChar(100)
-  created_at                             DateTime                                 @default(now()) @db.Timestamptz(6)
-  updated_at                             DateTime                                 @default(now()) @db.Timestamptz(6)
+  created_at                             DateTime                                 @default(now()) @db.Timestamp(0)
+  updated_at                             DateTime                                 @default(now()) @db.Timestamp(0)
   body_composition_categories            body_composition_categories[]
   body_composition_category_visibilities body_composition_category_visibilities[]
   body_compositions                      body_compositions[]

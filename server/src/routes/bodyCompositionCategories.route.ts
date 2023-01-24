@@ -6,7 +6,6 @@ export class BodyCompositionCategoriesRoute extends GenericRoute<BodyComposition
     constructor() {
         const controller = new BodyCompositionCategoriesController()
         super(controller, [controller.addUserConditionInclude]);
-        this.router.post('/:id/visibility', this.controller.updateVisibilityById)
     }
 
 }

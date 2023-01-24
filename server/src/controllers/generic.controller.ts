@@ -80,7 +80,6 @@ export class GenericController implements Controller {
                     ? {
                         ...req.body,
                         user_id: this.getUserIdByRequest(req)
-
                     }
                     : req.body
             ))

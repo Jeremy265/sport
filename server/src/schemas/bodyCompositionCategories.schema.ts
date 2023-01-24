@@ -23,12 +23,6 @@ export class BodyCompositionCategoriesSchema implements Schema {
         body_composition_category_id: Joi.number().min(1).required()
     })
 
-    updateVisibilityById = () => Joi.object({
-        body_composition_category_id: Joi.number().min(1).required(),
-        user_id: Joi.number().min(1).required(),
-        visible: Joi.boolean().required()
-    })
-
 }
 
 

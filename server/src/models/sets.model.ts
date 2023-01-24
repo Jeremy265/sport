@@ -9,6 +9,11 @@ export const includeSets: Include = {
             title: true,
             ...includeExercises
         },
+    },
+    trainings: {
+        select: {
+            date: true
+        }
     }
 }
 

@@ -6,7 +6,7 @@ import SignIn from "../SignIn/SignIn"
 import SignUp from "../SignUp/SignUp"
 import TrainingMode from "../Training/TrainingMode"
 import Body from "../Body/Body";
-import MyRecentTrainings from "../Training/MyRecentTrainings";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Router = () => {
 
@@ -14,7 +14,7 @@ const Router = () => {
         <Routes>
             <Route path="/" element={
                 localStorage.getItem('user')
-                    ? <MyRecentTrainings/>
+                    ? <Dashboard/>
                     : <SignIn/>
             }/>
             <Route path="/signin" element={<SignIn/>}/>

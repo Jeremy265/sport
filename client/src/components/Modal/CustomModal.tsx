@@ -24,10 +24,10 @@ const CustomModal = ({title, open, onClose, children}: Props) => {
             <Fade in={open}>
                 <Box sx={{
                     position: 'absolute' as 'absolute',
-                    top: '50%',
+                    top: '10%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '50%',
+                    transform: 'translate(-50%, -10%)',
+                    width: '95%',
                     bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,
@@ -36,7 +36,6 @@ const CustomModal = ({title, open, onClose, children}: Props) => {
                     <Stack
                         direction="row"
                         justifyContent="space-between"
-                        mb={2}
                     >
                         <Title>{title}</Title>
                         <CustomIconButton

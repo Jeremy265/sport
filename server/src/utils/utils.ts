@@ -37,7 +37,7 @@ export const handleError = (e: any) => {
         return new HttpResponseError(404, 'Resource not found');
     }
     if (e.code === 'P2002') {
-        return new HttpResponseError(400, 'Unique constraint failed on field : ' + e.meta.target)
+        return new HttpResponseError(409, 'Unique constraint failed on field : ' + e.meta.target)
     }
     if (e.code === 'P2003') {
         return new HttpResponseError(400,'Foreign key constraint failed on field : ' + e.meta.field_name)

@@ -12,11 +12,4 @@ export class BodyCompositionCategoriesService extends GenericService<BodyComposi
     addUserConditionInclude = (userId: number) =>
         this.model.addUserConditionInclude(userId)
 
-    updateVisibilityById = (id: number, data: BodyCompositionCategoryVisibility): Promise<BodyCompositionCategoryVisibility[]> => {
-        this.validateSchema({...data, body_composition_category_id: id}, this.schema.updateVisibilityById())
-        return this.model.updateVisibilityById(
-            {user_id: data.user_id, body_composition_category_id: id},
-            {user_id: data.user_id, body_composition_category_id: id, visible: data.visible})
-    }
-
 }

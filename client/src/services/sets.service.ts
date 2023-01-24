@@ -1,6 +1,7 @@
 import {GenericService} from "./generic.service";
 import {AxiosResponse} from "axios";
 import {IExercise} from "./exercises.service";
+import {ITraining} from "./trainings.service";
 
 export interface ISet {
     set_id?: number;
@@ -9,6 +10,7 @@ export interface ISet {
     exercise_id: number;
     training_id: number;
     exercises?: IExercise;
+    trainings?: ITraining;
 }
 
 const genericService = new GenericService()
@@ -22,6 +24,15 @@ export const createSet = (set: ISet): Promise<ISet> =>
         training_id: set.training_id
     }).then((response: AxiosResponse) => {
         return response.data
+    })
+
+export const updateSet = (set: ISet): Promise<ISet> =>
+    genericService.put('/' + set.set_id, {
+        set_id: set.set_id,
+        repetitions: set.repetitions,
+        value: set.value,
+        exercise_id: set.exercise_id,
+        training_id: set.training_id
     })
 
 export const deleteSet = (set_id: number): Promise<ISet> =>

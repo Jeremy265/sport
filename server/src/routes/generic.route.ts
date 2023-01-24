@@ -9,11 +9,12 @@ export class GenericRoute<T> implements Route {
     constructor(controller: Controller & T, middlewares: ((req: Request, res: Response) => void)[] = []) {
         this.controller = controller
         this.router = Router()
-        this.router.use('*', (req: Request, res: Response, next: NextFunction) => {
-            for (const middleware of middlewares)
-                middleware(req, res)
-            next()
-        })
+        if (middlewares.length > 0)
+            this.router.use('*', (req: Request, res: Response, next: NextFunction) => {
+                for (const middleware of middlewares)
+                    middleware(req, res)
+                next()
+            })
         this.router.get('/', this.controller.get);
         this.router.get('/:id', this.controller.getById);
         this.router.post('/', this.controller.create);

@@ -11,6 +11,12 @@ export interface IBodyCompositionCategory {
     body_composition_category_visibilities?: { visible: boolean }[]
 }
 
+export interface IBodyCompositionCategoryVisibility {
+    body_composition_category_id: number;
+    user_id: number;
+    visible: number;
+}
+
 const genericService = new GenericService()
 genericService.setApiUrl(genericService.API_URL_BODYCOMPOSITIONCATEGORIES)
 
@@ -45,11 +51,15 @@ export const deleteBodyCompositionCategory = (bodyCompositionCategory: IBodyComp
             return handleObject(response.data)
         })
 
-export const updateVisibilities = (visibilities: any) => {
-    for (const [id, visible] of visibilities) {
-        genericService.post('/' + id + '/visibility', {visible: visible})
-            .then((response: AxiosResponse) => {
-                return handleObject(response.data)
+export const updateVisibilities = (bodyCompositionCategories: IBodyCompositionCategory[]): Promise<IBodyCompositionCategoryVisibility[]> =>
+    genericService.put(
+        '/visibilities',
+        bodyCompositionCategories.map((bodyCompositionCategory: IBodyCompositionCategory) =>
+            ({
+                body_composition_category_id: bodyCompositionCategory.body_composition_category_id,
+                visible: true
             })
-    }
-}
+        ))
+        .then((response: AxiosResponse) => {
+            return response.data
+        })

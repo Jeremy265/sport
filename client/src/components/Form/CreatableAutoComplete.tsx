@@ -1,12 +1,11 @@
 import * as React from "react";
-import {ChangeEvent, KeyboardEventHandler, ReactElement, useState} from "react";
-import {AutocompleteRenderInputParams, Box, CircularProgress, Grid, TextField} from "@mui/material";
+import {ChangeEvent, ReactElement, useState} from "react";
+import {AutocompleteRenderInputParams, Box, CircularProgress, Grid} from "@mui/material";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import {FilterOptionsState} from "@mui/base";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 

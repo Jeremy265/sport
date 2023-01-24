@@ -11,9 +11,12 @@ import Container from '@mui/material/Container';
 import {Link} from "react-router-dom";
 import {getJSONFromForm} from "../../utils/forms";
 import {signIn} from "../../services/users.service";
-import {Alert, AlertColor, SnackbarOrigin} from "@mui/material";
+import {Alert, AlertColor, IconButton, InputAdornment, SnackbarOrigin} from "@mui/material";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const SignIn = () => {
+
+    const [showPassword, setShowPassword] = useState<boolean>(false)
 
     const [message, setMessage] = useState<{
         message: string;
@@ -99,9 +102,24 @@ const SignIn = () => {
                         fullWidth
                         name="password"
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         autoComplete="current-password"
+                        InputProps={
+                            {
+                                endAdornment: <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={
+                                            () =>
+                                                setShowPassword(!showPassword)
+                                        }
+                                    >
+                                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        }
                     />
                     <Button
                         type="submit"

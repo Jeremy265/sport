@@ -16,7 +16,6 @@ export const includeBodyCompositionCategories: Include = {
 }
 
 export class BodyCompositionCategoriesModel extends GenericModel<BodyCompositionCategory> {
-    private visibilitiesPrisma = new PrismaClient().body_composition_category_visibilities
 
     constructor() {
         super(new PrismaClient().body_composition_categories, includeBodyCompositionCategories);
@@ -29,24 +28,6 @@ export class BodyCompositionCategoriesModel extends GenericModel<BodyComposition
             }
         })
         this.includes = includeBodyCompositionCategories
-        console.log(this.includes)
-    }
-
-    updateVisibilityById = (conditions: Condition = {}, data: BodyCompositionCategoryVisibility): Promise<any> => {
-        return this.visibilitiesPrisma.findFirstOrThrow({
-            where: conditions
-        }).then((_) => {
-            return this.visibilitiesPrisma.updateMany({
-                where: conditions,
-                data: data
-            })
-        }).catch((e: any) => {
-            if (e.name === 'NotFoundError')
-                return this.visibilitiesPrisma.create({
-                    data: data
-                })
-            throw e
-        })
     }
 
 }

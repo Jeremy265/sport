@@ -60,8 +60,8 @@ export interface BodyCompositionCategoryVisibility {
     body_composition_category_id: number;
     user_id: number;
     visible: boolean;
-    created_at: Date;
-    updated_at: Date;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 export interface BodyComposition {
