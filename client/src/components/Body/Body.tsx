@@ -235,7 +235,7 @@ const Body = () => {
                                                   bodyCompositionCategories={bodyCompositionCategories}
                                                   onAddBodyCompositionCategory={handleAddBodyCompositionCategory}/>,
                     <NumberField id="value" label="Value" defaultValue={formValue?.value}
-                                 unit={formValue?.body_composition_categories.units.title}/>
+                                 unit={formValue?.body_composition_categories?.units?.title}/>
                 ]}
             />
         </CustomModal>

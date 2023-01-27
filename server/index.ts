@@ -7,9 +7,6 @@ import {BodyCompositionsRoute} from "./src/routes/bodyCompositions.route"
 import {BodyCompositionCategoriesRoute} from "./src/routes/bodyCompositionCategories.route"
 import {Request, Response} from "express"
 import {UnitsRoute} from "./src/routes/units.route"
-import {
-    BodyCompositionCategoryVisibilitiesController
-} from "./src/controllers/bodyCompositionCategoryVisibilities.controller"
 import {BodyCompositionCategoryVisibilitiesRoute} from "./src/routes/bodyCompositionCategoryVisibilities.route"
 
 const express = require('express')
@@ -31,7 +28,7 @@ app.use('/api', (req: Request, res: Response) => {
 })
 
 const path = require("path")
-const clientDir = path.join(__dirname, "../../client/dist")
+const clientDir = path.join(__dirname, process.env.CLIENT_DIR)
 
 app.use(express.static(clientDir))
 

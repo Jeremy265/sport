@@ -121,7 +121,7 @@ const Sets = ({loading, sets = [], onUpdateSet, onDeleteSet}: Props) => {
                         <ExerciseField id="exercises" defaultValue={formValue?.exercises}/>,
                         <NumberField id="repetitions" label="Repetitions" defaultValue={formValue?.repetitions}/>,
                         <NumberField id="value" label="Value" defaultValue={formValue?.value}
-                                     unit={formValue?.exercises.units.title}/>
+                                     unit={formValue?.exercises?.units?.title}/>
                     ]}
                 />
             </CustomModal>
