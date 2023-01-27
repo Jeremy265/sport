@@ -1,13 +1,13 @@
-import * as React from 'react';
-import {CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
-import {sortObjectsByKey} from "../../utils/utils";
+import * as React from 'react'
+import {CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
+import {sortObjectsByKey} from "../../utils/utils"
 
 interface Props {
-    title: string;
-    data: { x: any, [key: string]: any }[];
-    keys: { title: string, unit: string }[];
-    xLabel: string;
-    yLabel: string;
+    title: string
+    data: { x: any, [key: string]: any }[]
+    keys: { title: string, unit: string }[]
+    xLabel: string
+    yLabel: string
 }
 
 const TimeLineChart = ({
@@ -51,7 +51,7 @@ const TimeLineChart = ({
         "#da70d6",
         "#eee8aa",
         "#98fb98"
-    ];
+    ]
 
     const units = Array.from(new Set(sortObjectsByKey({
         array: keys,
@@ -122,7 +122,7 @@ const TimeLineChart = ({
 
             </LineChart>
         </ResponsiveContainer>
-    );
+    )
 }
 
 export default TimeLineChart

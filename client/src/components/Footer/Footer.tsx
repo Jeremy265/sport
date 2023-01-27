@@ -1,8 +1,8 @@
-import React = require('react');
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Copyright from './Copyright';
+import React = require('react')
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import Copyright from './Copyright'
 
 const Footer = () => {
   return (
@@ -21,7 +21,7 @@ const Footer = () => {
           <Copyright />
         </Container>
       </Box>
-  );
+  )
 }
 
 export default Footer

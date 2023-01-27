@@ -1,6 +1,6 @@
-import {GenericModel} from "./generic.model";
-import {PrismaClient} from "@prisma/client";
-import {Include, Unit} from "../utils/types";
+import {GenericModel} from "./generic.model"
+import {PrismaClient} from "@prisma/client"
+import {Include, Unit} from "../utils/types"
 
 export const includeUnits: Include = {
     exercises: false,
@@ -10,7 +10,7 @@ export const includeUnits: Include = {
 export class UnitsModel extends GenericModel<Unit> {
 
     constructor() {
-        super(new PrismaClient().units, includeUnits);
+        super(new PrismaClient().units, includeUnits)
     }
 
 }

@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, {AxiosError, AxiosResponse} from "axios"
 
 const allowedRoutes = [
     {
@@ -44,7 +44,7 @@ export class GenericService {
         }).then((response: AxiosResponse) => {
             return response
         }).catch((error: AxiosError) => {
-            if ([401, 403].includes(error.response.status)) {
+            if (url !== '/login' && [401, 403].includes(error.response.status)) {
                 localStorage.removeItem('user')
                 window.location.href = '/signin'
             }

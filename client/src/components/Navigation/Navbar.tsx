@@ -1,21 +1,21 @@
-import React = require("react");
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import ScaleRoundedIcon from '@mui/icons-material/ScaleRounded';
-import {List,} from "@mui/material";
-import {useState} from "react";
-import NavbarItem from "./NavbarItem";
-import {signOut} from "../../services/users.service";
+import React = require("react")
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import LoginIcon from '@mui/icons-material/Login'
+import LogoutIcon from '@mui/icons-material/Logout'
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter'
+import ScaleRoundedIcon from '@mui/icons-material/ScaleRounded'
+import {List,} from "@mui/material"
+import {useState} from "react"
+import NavbarItem from "./NavbarItem"
+import {signOut} from "../../services/users.service"
 
 interface Menu {
-    path: string;
-    text: string;
-    icon: any;
-    mustNotBeLogged: boolean;
-    mustBeLogged: boolean;
-    action?: () => void;
+    path: string
+    text: string
+    icon: any
+    mustNotBeLogged: boolean
+    mustBeLogged: boolean
+    action?: () => void
 }
 
 const Navbar = () => {

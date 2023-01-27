@@ -1,13 +1,13 @@
-import {GenericService} from "./generic.service";
-import {AxiosResponse} from "axios";
-import {IUnit} from "./units.service";
+import {GenericService} from "./generic.service"
+import {AxiosResponse} from "axios"
+import {IUnit} from "./units.service"
 
 export interface IExercise {
     exercise_id?: number
-    title: string;
-    image: string;
-    unit_id: number;
-    units?: IUnit;
+    title: string
+    image: string
+    unit_id: number
+    units?: IUnit
 }
 
 const genericService = new GenericService()

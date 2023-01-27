@@ -1,7 +1,7 @@
-import {HttpResponseError} from "./CustomErrors";
+import {HttpResponseError} from "./CustomErrors"
 
 const statusByPrismaCodes: {
-    [code: string]: number;
+    [code: string]: number
 } = {
     'P2000': 400,
     'P2001': 404,
@@ -10,7 +10,7 @@ const statusByPrismaCodes: {
 }
 
 const messageByPrismaCodes: {
-    [code: string]: string;
+    [code: string]: string
 } = {
     'P1000': 'Authentication failed to database',
     'P1001': 'Can\'t reach database',
@@ -34,7 +34,7 @@ export const handleError = (e: any) => {
         return new HttpResponseError(400, e.details[0].message)
     }
     if (e.name === 'NotFoundError') {
-        return new HttpResponseError(404, 'Resource not found');
+        return new HttpResponseError(404, 'Resource not found')
     }
     if (e.code === 'P2002') {
         return new HttpResponseError(409, 'Unique constraint failed on field : ' + e.meta.target)

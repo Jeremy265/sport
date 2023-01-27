@@ -1,11 +1,11 @@
-import {GenericController} from "./generic.controller";
-import {Request, Response} from "express";
-import {SetsService} from "../services/sets.service";
+import {GenericController} from "./generic.controller"
+import {Request, Response} from "express"
+import {SetsService} from "../services/sets.service"
 
 export class SetsController extends GenericController {
 
     constructor() {
-        super(new SetsService(), false, 'trainings');
+        super(new SetsService(), false, 'trainings')
     }
 
     getByTrainingId = async (req: Request, res: Response) => {

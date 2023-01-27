@@ -1,14 +1,14 @@
-import {Box, Divider, Fade, Grid, Modal, Stack, Typography} from "@mui/material";
-import * as React from "react";
-import CustomIconButton from "../Form/CustomIconButton";
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import Title from "../Title/Title";
+import {Box, Divider, Fade, Modal, Stack, Tooltip} from "@mui/material"
+import * as React from "react"
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import Title from "../Title/Title"
+import IconButton from "@mui/material/IconButton";
 
 interface Props {
-    title: string;
-    open: boolean;
-    onClose: () => void;
-    children?: React.ReactNode;
+    title: string
+    open: boolean
+    onClose: () => void
+    children?: React.ReactNode
 }
 
 const CustomModal = ({title, open, onClose, children}: Props) => {
@@ -38,11 +38,14 @@ const CustomModal = ({title, open, onClose, children}: Props) => {
                         justifyContent="space-between"
                     >
                         <Title>{title}</Title>
-                        <CustomIconButton
-                            onClick={onClose}
-                            icon={<CloseRoundedIcon/>}
-                            toolTip={"Close"}
-                        />
+                        <Tooltip title="Close">
+                            <IconButton
+                                edge="end"
+                                onClick={onClose}
+                            >
+                                <CloseRoundedIcon/>
+                            </IconButton>
+                        </Tooltip>
                     </Stack>
                     <Divider/>
                     {children}

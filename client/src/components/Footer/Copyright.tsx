@@ -1,6 +1,6 @@
-import React = require("react");
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import React = require("react")
+import Typography from '@mui/material/Typography'
+import Link from '@mui/material/Link'
 
 const Copyright = () => {
     return (
@@ -12,7 +12,7 @@ const Copyright = () => {
         {new Date().getFullYear()}
         {'.'}
       </Typography>
-    );
+    )
   }
 
 export default Copyright

@@ -1,12 +1,12 @@
-import React = require("react");
+import React = require("react")
 import {Route, Routes} from "react-router-dom"
 import Error401 from "../Errors/Error401"
 import Error404 from "../Errors/Error404"
 import SignIn from "../SignIn/SignIn"
 import SignUp from "../SignUp/SignUp"
 import TrainingMode from "../Training/TrainingMode"
-import Body from "../Body/Body";
-import Dashboard from "../Dashboard/Dashboard";
+import Body from "../Body/Body"
+import Dashboard from "../Dashboard/Dashboard"
 
 const Router = () => {
 

@@ -1,20 +1,20 @@
-import {GenericService} from "./generic.service";
-import {AxiosResponse} from "axios";
-import {IUnit} from "./units.service";
+import {GenericService} from "./generic.service"
+import {AxiosResponse} from "axios"
+import {IUnit} from "./units.service"
 
 export interface IBodyCompositionCategory {
-    body_composition_category_id?: number;
-    title: string;
-    unit_id: number;
-    units?: IUnit;
-    visible?: boolean;
+    body_composition_category_id?: number
+    title: string
+    unit_id: number
+    units?: IUnit
+    visible?: boolean
     body_composition_category_visibilities?: { visible: boolean }[]
 }
 
 export interface IBodyCompositionCategoryVisibility {
-    body_composition_category_id: number;
-    user_id: number;
-    visible: number;
+    body_composition_category_id: number
+    user_id: number
+    visible: number
 }
 
 const genericService = new GenericService()

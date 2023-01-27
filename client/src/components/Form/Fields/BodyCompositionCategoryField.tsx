@@ -1,32 +1,36 @@
-import * as React from "react";
-import {ReactElement} from "react";
-import {AutocompleteRenderInputParams, TextField} from "@mui/material";
-import CreatableAutoComplete from "../Form/CreatableAutoComplete";
-import PickUnit from "./PickUnit";
+import * as React from "react"
+import {ReactElement} from "react"
+import {AutocompleteRenderInputParams, TextField} from "@mui/material"
+import CreatableAutoComplete from "./CreatableAutoComplete"
+import UnitField from "./UnitField"
 import {
     createBodyCompositionCategory,
     IBodyCompositionCategory
-} from "../../services/bodyCompositionCategories.service";
-import {removeAccentsAndLower} from "../../utils/utils";
+} from "../../../services/bodyCompositionCategories.service"
+import {removeAccentsAndLower} from "../../../utils/utils"
+import CustomTextField from "./CustomTextField"
 
 interface Props {
-    id: string;
-    loading: boolean;
-    onChange: (bodyCompositionCategory: IBodyCompositionCategory | null) => void;
-    bodyCompositionCategories: IBodyCompositionCategory[];
-    onAddBodyCompositionCategory: (bodyCompositionCategory: IBodyCompositionCategory) => void;
+    id: string
+    loading: boolean
+    defaultValue?: IBodyCompositionCategory
+    onChange?: (bodyCompositionCategory: IBodyCompositionCategory | null) => void
+    bodyCompositionCategories: IBodyCompositionCategory[]
+    onAddBodyCompositionCategory: (bodyCompositionCategory: IBodyCompositionCategory) => void
 }
 
-const PickBodyCompositionCategory = ({
-                                         id,
-                                         onChange,
-                                         bodyCompositionCategories,
-                                         loading,
-                                         onAddBodyCompositionCategory
-                                     }: Props) => {
+const BodyCompositionCategoryField = ({
+                                          id,
+                                          defaultValue,
+                                          onChange,
+                                          bodyCompositionCategories,
+                                          loading,
+                                          onAddBodyCompositionCategory
+                                      }: Props) => {
 
     return <CreatableAutoComplete<IBodyCompositionCategory>
         id={id}
+        defaultValue={defaultValue}
         itemName="Body Composition Category"
         loading={loading}
         options={bodyCompositionCategories}
@@ -53,8 +57,11 @@ const PickBodyCompositionCategory = ({
                 alert(error)
             })
         }
-        onChange={(option: IBodyCompositionCategory) =>
-            onChange(option)
+        onChange={
+            (option: IBodyCompositionCategory) => {
+                if (onChange)
+                    onChange(option)
+            }
         }
         groupBy={(bodyCompositionCategory: IBodyCompositionCategory) =>
             removeAccentsAndLower(bodyCompositionCategory.title[0]).toUpperCase()
@@ -63,18 +70,13 @@ const PickBodyCompositionCategory = ({
             typeof bodyCompositionCategory === 'string' ? bodyCompositionCategory : bodyCompositionCategory.title
         }
         renderInput={(params: AutocompleteRenderInputParams): ReactElement =>
-            <TextField {...params} label="Body composition category"/>}
+            <TextField {...params} required label="Body composition category"/>}
         formElements={[
-            <TextField
-                autoFocus
-                id="title"
-                label="Title"
-                type="text"
-            />,
-            <PickUnit id={"units"} onChange={() => {
+            <CustomTextField id="title" label="Title" autoFocus={true}/>,
+            <UnitField id={"units"} onChange={() => {
             }}/>
         ]}
     />
 }
 
-export default PickBodyCompositionCategory
+export default BodyCompositionCategoryField

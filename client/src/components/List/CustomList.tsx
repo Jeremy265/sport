@@ -1,14 +1,14 @@
-import * as React from 'react';
-import {Children, ReactNode} from 'react';
-import List from '@mui/material/List';
-import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
-import {CircularProgress} from "@mui/material";
-import CustomListItem from "./CustomListItem";
-import CustomListIcon from "./CustomListIcon";
+import * as React from 'react'
+import {Children, ReactNode} from 'react'
+import List from '@mui/material/List'
+import NotesRoundedIcon from '@mui/icons-material/NotesRounded'
+import {CircularProgress} from "@mui/material"
+import CustomListItem from "./CustomListItem"
+import CustomListIcon from "./CustomListIcon"
 
 interface Props {
-    loading: boolean;
-    children: ReactNode;
+    loading: boolean
+    children: ReactNode
 }
 
 const CustomList = ({loading, children}: Props) => {

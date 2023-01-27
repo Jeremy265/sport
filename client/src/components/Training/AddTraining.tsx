@@ -1,14 +1,14 @@
-import * as React from 'react';
-import {ChangeEvent, useState} from 'react';
-import {Grid, Paper} from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Title from "../Title/Title";
-import {createTraining, ITraining, updateTraining} from "../../services/trainings.service";
-import Button from "@mui/material/Button";
-import PickDate from "../Pickers/PickDate";
+import * as React from 'react'
+import {ChangeEvent, useState} from 'react'
+import {Grid, Paper} from "@mui/material"
+import TextField from "@mui/material/TextField"
+import Title from "../Title/Title"
+import {createTraining, ITraining, updateTraining} from "../../services/trainings.service"
+import Button from "@mui/material/Button"
+import DateField from "../Form/Fields/DateField"
 
 interface Props {
-    training: ITraining;
+    training: ITraining
     onSubmit: (training: ITraining) => void
 }
 
@@ -57,14 +57,15 @@ const AddTraining = ({training, onSubmit}: Props) => {
         <Title>General informations</Title>
         <Grid container spacing={3} component="form">
             <Grid item xs={12} md={3} sx={{mt: 2}}>
-                <PickDate
+                <DateField
+                    id="date"
                     onChange={(date: Date) =>
                         setTrainingForm({
                             ...trainingForm,
                             date: date
                         })
                     }
-                    defaultDate={trainingForm.date}
+                    defaultValue={trainingForm.date}
                 />
             </Grid>
             <Grid item xs={12} md={9}>
@@ -83,7 +84,6 @@ const AddTraining = ({training, onSubmit}: Props) => {
                             title: e.currentTarget.value
                         })
                     }
-                    autoFocus
                 />
             </Grid>
             {

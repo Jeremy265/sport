@@ -1,15 +1,15 @@
-import {ISet} from "../services/sets.service";
-import {IExercise} from "../services/exercises.service";
-import {IBodyComposition} from "../services/bodyCompositions.service";
-import {ITraining} from "../services/trainings.service";
-import {IUnit} from "../services/units.service";
+import {ISet} from "../services/sets.service"
+import {IExercise} from "../services/exercises.service"
+import {IBodyComposition} from "../services/bodyCompositions.service"
+import {ITraining} from "../services/trainings.service"
+import {IUnit} from "../services/units.service"
 
 const dayjs = require("dayjs")
 
 export interface WeightByExercise {
     [exercise_id: number]: {
         exercise: IExercise,
-        weight: number;
+        weight: number
     }
 }
 
@@ -37,17 +37,17 @@ export interface BodyCompositionsByDate {
 }
 
 export const removeAccentsAndLower = (string: string) =>
-    string.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    string.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
 
 export const getFormattedDate = (date: Date, format: string = 'DD/MM/YYYY') =>
     dayjs(date).format(format)
 
 export const removeDuplicatesFromArrayByKey = (array: any[], key: string) => {
     return array.reduce((arr: any[], item: any) => {
-        const removed = arr.filter(i => i[key] !== item[key]);
-        return [...removed, item];
-    }, []);
-};
+        const removed = arr.filter(i => i[key] !== item[key])
+        return [...removed, item]
+    }, [])
+}
 
 export const extractSetsFromTrainings = (trainings: ITraining[]) =>
     trainings.map((training: ITraining) =>

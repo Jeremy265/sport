@@ -1,25 +1,27 @@
-import * as React from 'react';
-import {FormEvent, useState} from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import {Link} from "react-router-dom";
-import {getJSONFromForm} from "../../utils/forms";
-import {signIn} from "../../services/users.service";
-import {Alert, AlertColor, IconButton, InputAdornment, SnackbarOrigin} from "@mui/material";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import * as React from 'react'
+import {useState} from 'react'
+import Avatar from '@mui/material/Avatar'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import {Link} from "react-router-dom"
+import {signIn} from "../../services/users.service"
+import {Alert, AlertColor, SnackbarOrigin} from "@mui/material"
+import CustomForm from "../Form/CustomForm"
+import EmailField from "../Form/Fields/EmailField"
+import PasswordField from "../Form/Fields/PasswordField"
+
+interface ISignIn {
+    email: string
+    password: string
+}
 
 const SignIn = () => {
 
-    const [showPassword, setShowPassword] = useState<boolean>(false)
-
     const [message, setMessage] = useState<{
-        message: string;
+        message: string
         severity: AlertColor,
         position: SnackbarOrigin
     }>({
@@ -31,12 +33,9 @@ const SignIn = () => {
         }
     })
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = (data: ISignIn) => {
 
-        const data = getJSONFromForm(event.currentTarget)
-
-        if (!data.email && !data.password) {
+        if (!data.email || !data.password) {
             setMessage({
                 ...message,
                 message: 'Merci de renseigner votre adresse e-mail et votre mot de passe.',
@@ -45,10 +44,7 @@ const SignIn = () => {
             return
         }
 
-        signIn({
-            email: data.email,
-            password: data.password
-        }).then(() => {
+        signIn(data).then(() => {
             setMessage({
                 ...message,
                 message: 'Vous êtes connecté.',
@@ -62,7 +58,7 @@ const SignIn = () => {
                 severity: 'error'
             })
         })
-    };
+    }
 
     return (
         <Container maxWidth="xs">
@@ -81,66 +77,33 @@ const SignIn = () => {
                     Sign in
                 </Typography>
                 {message.message !== '' &&
-                    <Alert elevation={6} variant="filled" severity={message.severity} sx={{width: '100%'}}>
+                    <Alert elevation={6}  variant="filled" severity={message.severity} sx={{width: '100%'}}>
                         {message.message}
                     </Alert>
                 }
-                <Box component="form" onSubmit={handleSubmit} sx={{mt: 1}}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type={showPassword ? "text" : "password"}
-                        id="password"
-                        autoComplete="current-password"
-                        InputProps={
-                            {
-                                endAdornment: <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={
-                                            () =>
-                                                setShowPassword(!showPassword)
-                                        }
-                                    >
-                                        {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        }
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{mt: 3, mb: 2}}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link to={'/signup'}>Forgot password ?</Link>
-                        </Grid>
-                        <Grid item>
-                            <Link to={'/signup'}>No account ? Sign up</Link>
-                        </Grid>
+                <CustomForm<ISignIn>
+                    submitTitle="Sign in"
+                    onSubmit={handleSubmit}
+                    fields={[
+                        <EmailField
+                            id="email"
+                        />,
+                        <PasswordField
+                            id="password"
+                        />
+                    ]}
+                />
+                <Grid container>
+                    <Grid item xs={12} md={6}>
+                        <Link to={'/signup'}>Forgot password ?</Link>
                     </Grid>
-                </Box>
+                    <Grid item xs={12} md={6}>
+                        <Link to={'/signup'}>No account ? Sign up</Link>
+                    </Grid>
+                </Grid>
             </Box>
         </Container>
-    );
+    )
 }
 
 export default SignIn

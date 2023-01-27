@@ -1,6 +1,6 @@
-import {GenericModel} from "./generic.model";
-import {PrismaClient} from "@prisma/client";
-import {BodyCompositionCategory, BodyCompositionCategoryVisibility, Condition, Include} from "../utils/types";
+import {GenericModel} from "./generic.model"
+import {PrismaClient} from "@prisma/client"
+import {BodyCompositionCategory, BodyCompositionCategoryVisibility, Condition, Include} from "../utils/types"
 
 export const includeBodyCompositionCategoryVisibilities: Include = {
     body_composition_categories: false,
@@ -10,7 +10,7 @@ export const includeBodyCompositionCategoryVisibilities: Include = {
 export class BodyCompositionCategoryVisibilitiesModel extends GenericModel<BodyCompositionCategoryVisibility> {
 
     constructor() {
-        super(new PrismaClient().body_composition_category_visibilities, includeBodyCompositionCategoryVisibilities);
+        super(new PrismaClient().body_composition_category_visibilities, includeBodyCompositionCategoryVisibilities)
     }
 
     removeBy = (conditions: Condition = {}): Promise<BodyCompositionCategoryVisibility> =>

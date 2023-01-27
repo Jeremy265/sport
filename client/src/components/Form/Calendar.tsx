@@ -1,16 +1,16 @@
-import * as React from "react";
-import {useState} from "react";
-import {CalendarPicker, LocalizationProvider, PickersDay, PickersDayProps} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Badge} from "@mui/material";
-import 'dayjs/locale/fr';
+import * as React from "react"
+import {useState} from "react"
+import {CalendarPicker, LocalizationProvider, PickersDay, PickersDayProps} from "@mui/x-date-pickers"
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
+import {Badge} from "@mui/material"
+import 'dayjs/locale/fr'
 
-const dayjs = require("dayjs");
+const dayjs = require("dayjs")
 
 interface Props {
-    onChange: (date: Date) => void;
-    defaultDate?: Date;
-    datesToHighlight?: Set<string>;
+    onChange: (date: Date) => void
+    defaultDate?: Date
+    datesToHighlight?: Set<string>
 }
 
 const Calendar = ({onChange, defaultDate = new Date(), datesToHighlight = new Set()}: Props) => {

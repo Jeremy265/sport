@@ -1,16 +1,17 @@
-import * as React from "react";
-import {ReactElement, useEffect, useState} from "react";
-import {createUnit, getUnits, IUnit} from "../../services/units.service";
-import {AutocompleteRenderInputParams, TextField} from "@mui/material";
-import CreatableAutoComplete from "../Form/CreatableAutoComplete";
-import {removeAccentsAndLower} from "../../utils/utils";
+import * as React from "react"
+import {ReactElement, useEffect, useState} from "react"
+import {createUnit, getUnits, IUnit} from "../../../services/units.service"
+import {AutocompleteRenderInputParams, TextField} from "@mui/material"
+import CreatableAutoComplete from "./CreatableAutoComplete"
+import {removeAccentsAndLower} from "../../../utils/utils"
+import CustomTextField from "./CustomTextField"
 
 interface Props {
-    id: string;
-    onChange: (unit: IUnit | null) => void;
+    id: string
+    onChange?: (unit: IUnit) => void
 }
 
-const PickUnit = ({id, onChange}: Props) => {
+const UnitField = ({id, onChange}: Props) => {
 
     const [units, setUnits] = useState<IUnit[]>([])
     const [unitsLoading, setUnitsLoading] = useState<boolean>(true)
@@ -65,14 +66,9 @@ const PickUnit = ({id, onChange}: Props) => {
         renderInput={(params: AutocompleteRenderInputParams): ReactElement =>
             <TextField {...params} label="Unit"/>}
         formElements={[
-            <TextField
-                autoFocus
-                id="title"
-                label="Title"
-                type="text"
-            />
+            <CustomTextField id="title" label="Title" autoFocus={true}/>
         ]}
     />
 }
 
-export default PickUnit
+export default UnitField

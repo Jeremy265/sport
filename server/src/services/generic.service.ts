@@ -1,6 +1,6 @@
-import {handleError} from "../utils/utils";
-import {ObjectSchema} from "joi";
-import {Condition, Service} from "../utils/types";
+import {handleError} from "../utils/utils"
+import {ObjectSchema} from "joi"
+import {Condition, Service} from "../utils/types"
 
 const Joi = require('joi')
 

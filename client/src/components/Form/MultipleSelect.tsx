@@ -1,21 +1,21 @@
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-import {sortObjectsByKey} from "../../utils/utils";
+import * as React from 'react'
+import {useEffect, useState} from 'react'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import ListItemText from '@mui/material/ListItemText'
+import Select, {SelectChangeEvent} from '@mui/material/Select'
+import Checkbox from '@mui/material/Checkbox'
+import {sortObjectsByKey} from "../../utils/utils"
 
 type ExtendedT<T> = T & { selected: boolean }
 
 interface Props<ExtendedT> {
-    title: string;
-    data: ExtendedT[];
-    titleKey: string;
-    onChange: (data: ExtendedT[]) => void;
+    title: string
+    data: ExtendedT[]
+    titleKey: string
+    onChange: (data: ExtendedT[]) => void
 }
 
 const MultipleSelect = <T, >({title, data, titleKey, onChange}: Props<ExtendedT<T>>) => {
@@ -79,7 +79,7 @@ const MultipleSelect = <T, >({title, data, titleKey, onChange}: Props<ExtendedT<
                 </Select>
             </FormControl>
         </div>
-    );
+    )
 }
 
 export default MultipleSelect

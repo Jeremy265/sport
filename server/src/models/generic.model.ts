@@ -1,4 +1,4 @@
-import {Condition, Include, Model} from "../utils/types";
+import {Condition, Include, Model} from "../utils/types"
 
 export class GenericModel<T> implements Model {
 

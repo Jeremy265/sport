@@ -1,20 +1,20 @@
-import {authenticateToken} from "./src/middlewares/authenticate";
-import {UsersRoute} from "./src/routes/users.route";
-import {TrainingsRoute} from "./src/routes/trainings.route";
-import {SetsRoute} from "./src/routes/sets.route";
-import {ExercisesRoute} from "./src/routes/exercises.route";
-import {BodyCompositionsRoute} from "./src/routes/bodyCompositions.route";
-import {BodyCompositionCategoriesRoute} from "./src/routes/bodyCompositionCategories.route";
-import {Request, Response} from "express";
-import {UnitsRoute} from "./src/routes/units.route";
+import {authenticateToken} from "./src/middlewares/authenticate"
+import {UsersRoute} from "./src/routes/users.route"
+import {TrainingsRoute} from "./src/routes/trainings.route"
+import {SetsRoute} from "./src/routes/sets.route"
+import {ExercisesRoute} from "./src/routes/exercises.route"
+import {BodyCompositionsRoute} from "./src/routes/bodyCompositions.route"
+import {BodyCompositionCategoriesRoute} from "./src/routes/bodyCompositionCategories.route"
+import {Request, Response} from "express"
+import {UnitsRoute} from "./src/routes/units.route"
 import {
     BodyCompositionCategoryVisibilitiesController
-} from "./src/controllers/bodyCompositionCategoryVisibilities.controller";
-import {BodyCompositionCategoryVisibilitiesRoute} from "./src/routes/bodyCompositionCategoryVisibilities.route";
+} from "./src/controllers/bodyCompositionCategoryVisibilities.controller"
+import {BodyCompositionCategoryVisibilitiesRoute} from "./src/routes/bodyCompositionCategoryVisibilities.route"
 
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3003;
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 3003
 
 app.use(express.json())
 app.use('/api', authenticateToken)
@@ -30,15 +30,15 @@ app.use('/api', (req: Request, res: Response) => {
     res.status(404).send('Collection not found or method not allowed')
 })
 
-const path = require("path");
-const clientDir = path.join(__dirname, "../../client/dist");
+const path = require("path")
+const clientDir = path.join(__dirname, "../../client/dist")
 
-app.use(express.static(clientDir));
+app.use(express.static(clientDir))
 
 app.get('/*', (req: Request, res: Response) => {
     res.sendFile(path.join(clientDir, "index.html"))
 })
 
 app.listen(port, () => {
-    console.log('Server app listening on port ' + port);
-});
+    console.log('Server app listening on port ' + port)
+})

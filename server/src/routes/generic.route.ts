@@ -1,5 +1,5 @@
-import {NextFunction, Request, Response, Router} from 'express';
-import {Controller, Route} from "../utils/types";
+import {NextFunction, Request, Response, Router} from 'express'
+import {Controller, Route} from "../utils/types"
 
 export class GenericRoute<T> implements Route {
 
@@ -15,11 +15,11 @@ export class GenericRoute<T> implements Route {
                     middleware(req, res)
                 next()
             })
-        this.router.get('/', this.controller.get);
-        this.router.get('/:id', this.controller.getById);
-        this.router.post('/', this.controller.create);
-        this.router.put('/:id', this.controller.updateById);
-        this.router.delete('/:id', this.controller.removeById);
+        this.router.get('/', this.controller.get)
+        this.router.get('/:id', this.controller.getById)
+        this.router.post('/', this.controller.create)
+        this.router.put('/:id', this.controller.updateById)
+        this.router.delete('/:id', this.controller.removeById)
     }
 
     getRouter = (): Router =>

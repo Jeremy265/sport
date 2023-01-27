@@ -1,9 +1,9 @@
-import {HttpResponseError} from "./CustomErrors";
+import {HttpResponseError} from "./CustomErrors"
 
 const jwt = require('jsonwebtoken')
 
 export const generateAccessToken = (data: any) =>
-    jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '72h' });
+    jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '72h' })
 
 
 export const verifyAccessToken = (token: string) =>

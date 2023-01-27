@@ -1,12 +1,12 @@
-import {GenericService} from "./generic.service";
-import {BodyCompositionCategoryVisibility} from "../utils/types";
-import {BodyCompositionCategoryVisibilitiesModel} from "../models/bodyCompositionCategoryVisibilities.model";
-import {BodyCompositionCategoryVisibilitiesSchema} from "../schemas/bodyCompositionCategoryVisibilities.schema";
+import {GenericService} from "./generic.service"
+import {BodyCompositionCategoryVisibility} from "../utils/types"
+import {BodyCompositionCategoryVisibilitiesModel} from "../models/bodyCompositionCategoryVisibilities.model"
+import {BodyCompositionCategoryVisibilitiesSchema} from "../schemas/bodyCompositionCategoryVisibilities.schema"
 
 export class BodyCompositionCategoryVisibilitiesService extends GenericService<BodyCompositionCategoryVisibility> {
 
     constructor() {
-        super(new BodyCompositionCategoryVisibilitiesModel(), new BodyCompositionCategoryVisibilitiesSchema(), 'body_composition_category_id');
+        super(new BodyCompositionCategoryVisibilitiesModel(), new BodyCompositionCategoryVisibilitiesSchema(), 'body_composition_category_id')
     }
 
     removeByUserId = (userId: number) =>

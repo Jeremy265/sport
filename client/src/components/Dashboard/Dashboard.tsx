@@ -1,20 +1,23 @@
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {getTrainings, ITraining} from "../../services/trainings.service";
-import {Container} from '@mui/material';
-import MyRecentTrainings from "../Training/MyRecentTrainings";
-import MultipleTimeLineChart from "../Chart/MultipleTimeLineChart";
+import * as React from 'react'
+import {useEffect, useState} from 'react'
+import {getTrainings, ITraining} from "../../services/trainings.service"
+import {Container} from '@mui/material'
+import MyRecentTrainings from "../Training/MyRecentTrainings"
+import MultipleTimeLineChart from "../Chart/MultipleTimeLineChart"
 import {
     extractSetsFromTrainings,
     groupSetsByDate,
     groupSetsByExercise,
     sumSetsWeightByExercise
-} from "../../utils/utils";
-import {IExercise} from "../../services/exercises.service";
-import MultipleSelect from "../Form/MultipleSelect";
+} from "../../utils/utils"
+import {IExercise} from "../../services/exercises.service"
+import MultipleSelect from "../Form/MultipleSelect"
+import ExerciseField from "../Form/Fields/ExerciseField"
+import UnitField from "../Form/Fields/UnitField"
+import CustomForm from "../Form/CustomForm"
 
 interface SelectableExercise extends IExercise {
-    selected: boolean;
+    selected: boolean
 }
 
 const Dashboard = () => {
@@ -114,12 +117,12 @@ const Dashboard = () => {
                 }
                 onUpdateTraining={
                     (trainingToUpdate: ITraining) => {
-                        const newTrainings = [...trainings];
+                        const newTrainings = [...trainings]
                         const trainingIndex = newTrainings.findIndex((training: ITraining) =>
                             training.training_id === trainingToUpdate.training_id
                         )
                         newTrainings[trainingIndex] = trainingToUpdate
-                        setTrainings(newTrainings);
+                        setTrainings(newTrainings)
                     }
                 }
             />

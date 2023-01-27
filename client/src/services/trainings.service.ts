@@ -1,15 +1,15 @@
-import {GenericService} from "./generic.service";
-import {AxiosResponse} from "axios";
-import {ISet} from "./sets.service";
+import {GenericService} from "./generic.service"
+import {AxiosResponse} from "axios"
+import {ISet} from "./sets.service"
 
 export interface ITraining {
     training_id?: number
-    title: string;
-    date: Date;
-    user_id?: number;
-    sets?: ISet[];
-    created_at?: Date;
-    updated_at?: Date;
+    title: string
+    date: Date
+    user_id?: number
+    sets?: ISet[]
+    created_at?: Date
+    updated_at?: Date
 }
 
 const genericService = new GenericService()

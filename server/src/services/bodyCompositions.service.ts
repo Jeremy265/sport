@@ -1,12 +1,12 @@
-import {GenericService} from "./generic.service";
-import {BodyCompositionsSchema} from "../schemas/bodyCompositions.schema";
-import {BodyComposition} from "../utils/types";
-import {BodyCompositionsModel} from "../models/bodyCompositions.model";
+import {GenericService} from "./generic.service"
+import {BodyCompositionsSchema} from "../schemas/bodyCompositions.schema"
+import {BodyComposition} from "../utils/types"
+import {BodyCompositionsModel} from "../models/bodyCompositions.model"
 
 export class BodyCompositionsService extends GenericService<BodyComposition> {
 
     constructor() {
-        super(new BodyCompositionsModel(), new BodyCompositionsSchema(), 'body_composition_id');
+        super(new BodyCompositionsModel(), new BodyCompositionsSchema(), 'body_composition_id')
     }
 
     getByUserId = (id: number): Promise<BodyComposition[]> => {

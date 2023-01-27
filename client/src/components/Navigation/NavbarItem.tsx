@@ -1,13 +1,13 @@
-import React = require("react");
-import {ListItemButton, ListItemIcon, ListItemText,} from "@mui/material";
-import {Link} from "react-router-dom";
+import React = require("react")
+import {ListItemButton, ListItemIcon, ListItemText,} from "@mui/material"
+import {Link} from "react-router-dom"
 
 interface Props {
-    selected: boolean;
-    onClick: () => void;
-    path: string;
-    icon: string;
-    text: string;
+    selected: boolean
+    onClick: () => void
+    path: string
+    icon: string
+    text: string
 }
 const NavbarItem = ({selected, onClick, path, icon, text}: Props) => {
     return (

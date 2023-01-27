@@ -1,12 +1,12 @@
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {Container, Grid, Paper} from "@mui/material";
-import Countdown from "./Countdown";
-import {getSets, ITraining} from "../../services/trainings.service";
-import AddSet from "../Sets/AddSet";
-import {ISet} from "../../services/sets.service";
-import Sets from "../Sets/Sets";
-import AddTraining from "./AddTraining";
+import * as React from 'react'
+import {useEffect, useState} from 'react'
+import {Container, Grid, Paper} from "@mui/material"
+import Countdown from "./Countdown"
+import {getSets, ITraining} from "../../services/trainings.service"
+import AddSet from "../Sets/AddSet"
+import {ISet} from "../../services/sets.service"
+import Sets from "../Sets/Sets"
+import AddTraining from "./AddTraining"
 
 const TrainingMode = () => {
     const [training, setTraining] = useState<ITraining>(
@@ -62,6 +62,16 @@ const TrainingMode = () => {
                         <Sets
                             loading={loading}
                             sets={sets}
+                            onUpdateSet={
+                                (setToUpdate: ISet) => {
+                                    const newSets = [...sets]
+                                    const setIndex = newSets.findIndex((set: ISet) =>
+                                        set.set_id === setToUpdate.set_id
+                                    )
+                                    newSets[setIndex] = setToUpdate
+                                    setSets(newSets)
+                                }
+                            }
                             onDeleteSet={
                                 (deletedSet: ISet) => {
                                     setSets(sets.filter((set: ISet) => set.set_id !== deletedSet.set_id))

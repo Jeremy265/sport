@@ -1,5 +1,5 @@
 
-import {Schema} from "../utils/types";
+import {Schema} from "../utils/types"
 const Joi = require('joi')
 
 export class BodyCompositionCategoryVisibilitiesSchema implements Schema {

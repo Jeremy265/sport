@@ -1,14 +1,14 @@
-import * as React from "react";
-import {createRoot} from 'react-dom/client';
-import {BrowserRouter} from "react-router-dom";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
-import Router from "./components/Navigation/Router";
-import CssBaseline from "@mui/material/CssBaseline";
-import Title from "./components/Title/Title";
+import * as React from "react"
+import {createRoot} from 'react-dom/client'
+import {BrowserRouter} from "react-router-dom"
+import Header from "./components/Header/Header"
+import Footer from "./components/Footer/Footer"
+import Router from "./components/Navigation/Router"
+import CssBaseline from "@mui/material/CssBaseline"
+import Title from "./components/Title/Title"
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
+const container = document.getElementById('root')
+const root = createRoot(container!)
 
 const Index = () => {
 
@@ -31,4 +31,4 @@ const Index = () => {
     )
 }
 
-root.render(<Index/>);
+root.render(<Index/>)

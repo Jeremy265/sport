@@ -1,20 +1,21 @@
-import SettingsIcon from '@mui/icons-material/Settings';
-import * as React from "react";
-import {useEffect, useState} from "react";
-import CustomIconButton from "../Form/CustomIconButton";
-import CustomModal from "../Modal/CustomModal";
-import {Stack, Typography} from "@mui/material";
+import SettingsIcon from '@mui/icons-material/Settings'
+import * as React from "react"
+import {useEffect, useState} from "react"
+import CustomModal from "../Modal/CustomModal"
+import {Stack, Typography} from "@mui/material"
 import {
     IBodyCompositionCategory,
     IBodyCompositionCategoryVisibility,
     updateVisibilities
-} from "../../services/bodyCompositionCategories.service";
-import Button from "@mui/material/Button";
-import MultipleSelect from "../Form/MultipleSelect";
+} from "../../services/bodyCompositionCategories.service"
+import Button from "@mui/material/Button"
+import MultipleSelect from "../Form/MultipleSelect"
+import CustomMenu from "../Form/CustomMenu";
+import CustomMenuItem from "../Form/CustomMenuItem";
 
 interface Props {
-    bodyCompositionCategories: IBodyCompositionCategory[];
-    onSaveVisibilities: (newBodyCompositionCategories: IBodyCompositionCategory[]) => void;
+    bodyCompositionCategories: IBodyCompositionCategory[]
+    onSaveVisibilities: (newBodyCompositionCategories: IBodyCompositionCategory[]) => void
 }
 
 const SetCategories = ({bodyCompositionCategories, onSaveVisibilities}: Props) => {
@@ -39,7 +40,7 @@ const SetCategories = ({bodyCompositionCategories, onSaveVisibilities}: Props) =
                                 bodyCompositionCategory.body_composition_category_id === bodyCompositionCategoryVisibility.body_composition_category_id) !== undefined
                         })
                     ))
-                setOpen(false)
+                    setOpen(false)
                 }
             )
             .catch((error: Error) =>
@@ -49,14 +50,13 @@ const SetCategories = ({bodyCompositionCategories, onSaveVisibilities}: Props) =
 
     return (
         <>
-            <CustomIconButton
-                onClick={() => setOpen(true)}
-                icon={<SettingsIcon/>}
-                toolTip={"Settings"}
-                text={"Settings"}
-            />
+            <CustomMenu>
+                <CustomMenuItem onClick={() => setOpen(true)}
+                                icon={<SettingsIcon/>}
+                                text="Select visible categories"/>
+            </CustomMenu>
             <CustomModal
-                title={"Settings"}
+                title={"Select visible categories"}
                 open={open}
                 onClose={() => setOpen(false)}>
                 <Stack

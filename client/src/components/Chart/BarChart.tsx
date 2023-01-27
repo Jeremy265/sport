@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
     Bar,
     BarChart,
@@ -11,12 +11,12 @@ import {
     Tooltip,
     XAxis,
     YAxis
-} from 'recharts';
+} from 'recharts'
 
 interface Props {
-    data: { x: any, y: any }[];
-    xLabel: string;
-    yLabel: string;
+    data: { x: any, y: any }[]
+    xLabel: string
+    yLabel: string
 }
 
 const CustomBarChart = ({
@@ -56,7 +56,7 @@ const CustomBarChart = ({
                 <Bar name={yLabel} dataKey="y" fill="#8884d8"/>
             </BarChart>
         </ResponsiveContainer>
-    );
+    )
 }
 
 export default CustomBarChart

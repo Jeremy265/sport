@@ -1,27 +1,25 @@
-import * as React from 'react';
-import {Alert, Snackbar, AlertColor, SnackbarOrigin, IconButton} from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
-import {SyntheticEvent, useState} from "react";
+import * as React from 'react'
+import {Alert, Snackbar, AlertColor, SnackbarOrigin, IconButton} from "@mui/material"
+import CloseIcon from '@mui/icons-material/Close'
+import {SyntheticEvent, useState} from "react"
 
-interface Props {
-    message: string;
-    severity: AlertColor;
-    position: SnackbarOrigin;
+export interface IMessage {
+    message: string
+    severity: AlertColor
+    position?: SnackbarOrigin
 }
 
-const Message = ({message, severity, position}: Props) => {
+const Message = ({message, severity, position = { vertical: 'top', horizontal: 'right' }}: IMessage) => {
 
-    const [open, setOpen] = useState(true);
-
-    setOpen(true)
+    const [open, setOpen] = useState(true)
 
     const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
-            return;
+            return
         }
 
-        setOpen(false);
-    };
+        setOpen(false)
+    }
 
     const action = (
         <IconButton

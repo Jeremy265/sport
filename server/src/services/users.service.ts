@@ -1,16 +1,16 @@
-import {HttpResponseError} from "../utils/CustomErrors";
-import {generateAccessToken} from "../utils/jwt";
-import {UserModel} from "../models/users.model";
-import {comparePasswords, getHashFromPassword} from "../utils/hash";
-import {GenericService} from "./generic.service";
-import {UsersSchema} from "../schemas/users.schema";
-import {User, UserLogin} from "../utils/types";
-import {handleError} from "../utils/utils";
+import {HttpResponseError} from "../utils/CustomErrors"
+import {generateAccessToken} from "../utils/jwt"
+import {UserModel} from "../models/users.model"
+import {comparePasswords, getHashFromPassword} from "../utils/hash"
+import {GenericService} from "./generic.service"
+import {UsersSchema} from "../schemas/users.schema"
+import {User, UserLogin} from "../utils/types"
+import {handleError} from "../utils/utils"
 
 export class UsersService extends GenericService<User> {
 
     constructor() {
-        super(new UserModel(), new UsersSchema(), 'user_id');
+        super(new UserModel(), new UsersSchema(), 'user_id')
     }
 
     create = (user: User): Promise<User | void> => {

@@ -1,22 +1,22 @@
-import * as React from 'react';
-import {useState} from 'react';
-import Title from '../Title/Title';
-import {ITraining} from "../../services/trainings.service";
-import {Container, Divider, Grid, Paper} from '@mui/material';
-import Calendar from '../Form/Calendar';
-import Training from "./Training";
-import {ISet} from "../../services/sets.service";
+import * as React from 'react'
+import {useState} from 'react'
+import Title from '../Title/Title'
+import {ITraining} from "../../services/trainings.service"
+import {Container, Divider, Grid, Paper} from '@mui/material'
+import Calendar from '../Form/Calendar'
+import Training from "./Training"
+import {ISet} from "../../services/sets.service"
 
 const dayjs = require('dayjs')
 
 interface Props {
-    trainings: ITraining[];
-    onDuplicateTraining: (training: ITraining) => void;
-    onUpdateTraining: (training: ITraining) => void;
-    onDeleteTraining: (training: ITraining) => void;
+    trainings: ITraining[]
+    onDuplicateTraining: (training: ITraining) => void
+    onUpdateTraining: (training: ITraining) => void
+    onDeleteTraining: (training: ITraining) => void
 }
 
-const MyRecentTrainings = ({ trainings, onDuplicateTraining, onUpdateTraining, onDeleteTraining }: Props) => {
+const MyRecentTrainings = ({trainings, onDuplicateTraining, onUpdateTraining, onDeleteTraining}: Props) => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
     const getSelectedTrainings = (): ITraining[] =>
@@ -55,12 +55,23 @@ const MyRecentTrainings = ({ trainings, onDuplicateTraining, onUpdateTraining, o
                                     training={training}
                                     onDuplicateTraining={onDuplicateTraining}
                                     onDeleteTraining={onDeleteTraining}
+                                    onUpdateSet={
+                                        (setToUpdate: ISet) => {
+                                            const newSets = [...training.sets]
+                                            const setIndex = newSets.findIndex((set: ISet) =>
+                                                set.set_id === setToUpdate.set_id
+                                            )
+                                            newSets[setIndex] = setToUpdate
+                                            training.sets = newSets
+                                            onUpdateTraining(training)
+                                        }
+                                    }
                                     onDeleteSet={
                                         (setToDelete: ISet) => {
                                             training.sets = training.sets.filter((set: ISet) =>
                                                 set.set_id !== setToDelete.set_id
                                             )
-                                            onUpdateTraining(training);
+                                            onUpdateTraining(training)
                                         }
                                     }
                                 />

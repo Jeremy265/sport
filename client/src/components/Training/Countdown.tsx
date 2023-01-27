@@ -1,17 +1,17 @@
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Title from "../Title/Title";
-import {Fab, Grid, Paper, Tooltip} from "@mui/material";
-import StopRoundedIcon from '@mui/icons-material/StopRounded';
-import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import * as React from 'react'
+import {useEffect, useState} from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import Title from "../Title/Title"
+import {Fab, Grid, Paper, Tooltip} from "@mui/material"
+import StopRoundedIcon from '@mui/icons-material/StopRounded'
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded'
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
 
 const Countdown = () => {
-    const [duration, setDuration] = useState<number>(60);
-    const [progress, setProgress] = useState<number>(0);
+    const [duration, setDuration] = useState<number>(60)
+    const [progress, setProgress] = useState<number>(0)
     const [isRunning, setIsRunning] = useState<boolean>(false)
 
     const onStart = (duration: number) => {
@@ -25,7 +25,7 @@ const Countdown = () => {
         setProgress(0)
     }
 
-    let countdownInterval: NodeJS.Timeout;
+    let countdownInterval: NodeJS.Timeout
 
     useEffect(() => {
         if (isRunning) {
@@ -36,13 +36,13 @@ const Countdown = () => {
                         return
                     }
                     return prevProgress + 1
-                });
-            }, 1000);
+                })
+            }, 1000)
         }
         return () => {
-            clearInterval(countdownInterval);
-        };
-    }, [duration, isRunning]);
+            clearInterval(countdownInterval)
+        }
+    }, [duration, isRunning])
 
     return (
         <Paper sx={{p: 2}}>
@@ -106,7 +106,7 @@ const Countdown = () => {
                 }
             </Grid>
         </Paper>
-    );
+    )
 }
 
 export default Countdown

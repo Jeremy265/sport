@@ -1,9 +1,9 @@
-import {GenericService} from "./generic.service";
-import {AxiosResponse} from "axios";
+import {GenericService} from "./generic.service"
+import {AxiosResponse} from "axios"
 
 export interface IUnit {
     unit_id?: number
-    title: string;
+    title: string
 }
 
 const genericService = new GenericService()

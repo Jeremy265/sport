@@ -1,18 +1,18 @@
-import {AxiosResponse} from "axios";
-import {GenericService} from "./generic.service";
-import {IBodyCompositionCategory} from "./bodyCompositionCategories.service";
+import {AxiosResponse} from "axios"
+import {GenericService} from "./generic.service"
+import {IBodyCompositionCategory} from "./bodyCompositionCategories.service"
 
 interface User {
-    user_id?: number;
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
+    user_id?: number
+    first_name: string
+    last_name: string
+    email: string
+    password: string
 }
 
 interface UserSignIn {
-    email: string;
-    password: string;
+    email: string
+    password: string
 }
 
 const genericService = new GenericService()

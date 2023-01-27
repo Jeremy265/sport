@@ -1,5 +1,5 @@
-import {Request, Response} from "express";
-import {Controller} from "../utils/types";
+import {Request, Response} from "express"
+import {Controller} from "../utils/types"
 
 export class GenericController implements Controller {
 

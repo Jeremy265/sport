@@ -1,12 +1,12 @@
-import {Request, Response} from "express";
-import {UsersService} from "../services/users.service";
-import {GenericController} from "./generic.controller";
-import {HttpResponseError} from "../utils/CustomErrors";
+import {Request, Response} from "express"
+import {UsersService} from "../services/users.service"
+import {GenericController} from "./generic.controller"
+import {HttpResponseError} from "../utils/CustomErrors"
 
 export class UsersController extends GenericController {
 
     constructor() {
-        super(new UsersService());
+        super(new UsersService())
     }
 
     getByIdIfItemOwnedByUserAndExists = async (itemId: number, userId: number) => {

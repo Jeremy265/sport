@@ -1,14 +1,14 @@
-import {NextFunction, Request, Response} from "express";
-import {verifyAccessToken} from "../utils/jwt";
-import {HttpResponseError} from "../utils/CustomErrors";
+import {NextFunction, Request, Response} from "express"
+import {verifyAccessToken} from "../utils/jwt"
+import {HttpResponseError} from "../utils/CustomErrors"
 
 interface AllowedRoute {
-    method: string;
-    url: string;
+    method: string
+    url: string
 }
 
 const removeTrailingSlash = (str: string) => {
-    return str.replace(/\/+$/, '');
+    return str.replace(/\/+$/, '')
 }
 
 const allowedRoutes = [

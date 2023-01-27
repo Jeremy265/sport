@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
     Paper,
     Table,
@@ -8,24 +8,24 @@ import {
     TableRow,
     TableCell,
     TablePagination
-} from '@mui/material';
+} from '@mui/material'
 
 interface Column {
-    id: string;
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    format?: (value: any) => any;
+    id: string
+    label: string
+    minWidth?: number
+    align?: 'right'
+    format?: (value: any) => any
 }
 
 interface Props<T> {
-    columns: Column[];
-    rows: T[];
+    columns: Column[]
+    rows: T[]
 }
 
 const PaginatedTable = <T, >({columns, rows}: Props<T>) => {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = React.useState(0)
+    const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
     return (
         <>
@@ -57,17 +57,17 @@ const PaginatedTable = <T, >({columns, rows}: Props<T>) => {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                             {columns.map((column) => {
-                                                const value: any = row[column.id as keyof typeof row];
+                                                const value: any = row[column.id as keyof typeof row]
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
                                                         {column.format
                                                             ? column.format(value)
                                                             : value}
                                                     </TableCell>
-                                                );
+                                                )
                                             })}
                                         </TableRow>
-                                    );
+                                    )
                                 })}
                     </TableBody>
                 </Table>
@@ -79,15 +79,15 @@ const PaginatedTable = <T, >({columns, rows}: Props<T>) => {
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={(event: any, page: number) => {
-                    setPage(page);
+                    setPage(page)
                 }}
                 onRowsPerPageChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setRowsPerPage(+event.target.value);
-                    setPage(0);
+                    setRowsPerPage(+event.target.value)
+                    setPage(0)
                 }}
             />
         </>
-    );
+    )
 }
 
 export default PaginatedTable
