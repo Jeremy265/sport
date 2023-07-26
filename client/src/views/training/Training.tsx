@@ -6,25 +6,37 @@ import {createSet, ISet} from "../../services/sets.service";
 import MainCard from "../../ui-component/cards/MainCard";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CustomMenu from "../../ui-component/menu/CustomMenu";
 import CustomMenuItem from "../../ui-component/menu/CustomMenuItem";
 import Sets from "../set/Sets";
 import {updateObjectOfArray} from "../../utils/object.utils";
-import Loading from "../../ui-component/Loading";
 import {useDispatch} from "react-redux";
 import {setMessage} from "../../store/slices/messageSlice";
 
 interface Props {
     training: ITraining
+    onResumeTraining: (training: ITraining) => void
     onDuplicateTraining: (training: ITraining) => void
     onUpdateTraining: (training: ITraining) => void
     onDeleteTraining: (training: ITraining) => void
     loading?: boolean
 }
 
-const Training = ({training, onDuplicateTraining, onUpdateTraining, onDeleteTraining, loading}: Props) => {
+const Training = ({
+                      training,
+                      onResumeTraining,
+                      onDuplicateTraining,
+                      onUpdateTraining,
+                      onDeleteTraining,
+                      loading
+                  }: Props) => {
 
     const dispatch = useDispatch()
+
+    const handleResumeTraining = () => {
+        onResumeTraining(training)
+    }
 
     const handleDuplicateTraining = () => {
         createTraining(
@@ -40,13 +52,16 @@ const Training = ({training, onDuplicateTraining, onUpdateTraining, onDeleteTrai
                     }).then((newSet: ISet) => {
                         newTraining.sets.push(newSet)
                     }).catch((error: Error) => {
-                        dispatch(setMessage({text : `Error duplicating set ${set.set_id} : ${error.message}`, severity: 'error'}))
+                        dispatch(setMessage({
+                            text: `Error duplicating set ${set.set_id} : ${error.message}`,
+                            severity: 'error'
+                        }))
                     })
                 })
             ).then(() => {
                 onDuplicateTraining(newTraining)
             }).catch((error: Error) => {
-                dispatch(setMessage({text : `An error occured : ${error.message}`, severity: 'error'}))
+                dispatch(setMessage({text: `An error occured : ${error.message}`, severity: 'error'}))
             })
         }).catch((error: Error) =>
             dispatch(setMessage({text: error.message, severity: 'error'}))
@@ -81,6 +96,9 @@ const Training = ({training, onDuplicateTraining, onUpdateTraining, onDeleteTrai
     return <MainCard title={training.title}
                      action={
                          <CustomMenu>
+                             <CustomMenuItem text="Resume"
+                                             icon={<PlayArrowIcon/>}
+                                             onClick={handleResumeTraining}/>
                              <CustomMenuItem text="Duplicate"
                                              icon={<ContentCopyIcon/>}
                                              onClick={handleDuplicateTraining}/>

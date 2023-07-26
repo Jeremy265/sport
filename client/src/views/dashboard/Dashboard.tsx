@@ -23,6 +23,11 @@ const Dashboard = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+    const handleResumeTraining = (training: ITraining) => {
+        localStorage.setItem('current_training', JSON.stringify(training))
+        navigate(config.defaultPath + 'training-mode')
+    }
+
     const handleDuplicateTraining = (newTraining: ITraining) => {
         setTrainings(addObjectToArray(newTraining, trainings))
         localStorage.setItem('current_training', JSON.stringify(newTraining))
@@ -75,6 +80,7 @@ const Dashboard = () => {
                         selectedTrainings.map((training: ITraining) =>
                             <Training key={training.training_id}
                                       training={training}
+                                      onResumeTraining={handleResumeTraining}
                                       onDuplicateTraining={handleDuplicateTraining}
                                       onUpdateTraining={handleUpdateTraining}
                                       onDeleteTraining={handleDeleteTraining}
